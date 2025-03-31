@@ -1,0 +1,82 @@
+﻿@using FitnessPlanMVC.Domain.Model
+@model FitnessPlanMVC.Application.ViewModels.Product.ListProductForListVM
+
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+<form asp-action="ListOfProduct" asp-controller="Meal" method="post">
+    <div class="row">
+        <input type="text" asp-for="SearchString" name="searchString" id="searchString" />
+        <input type="submit" value="Search" />
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @*   <td> *@
+                @* @Html.TextBox("quantity", null, new { placeholder = "Ilość gram", type = "number",id = "quantityField" }) *@
+                @* </td> *@
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelProduct => product.Name)
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn-black" onclick="location.href='@Url.Action("AddProductToMeal", new { productId = product.Id, mealId = TempData["MealId"] })'">Dodaj produkt do posiłku</button>
+
+                            @* <a href="#" onclick="addProductToMeal(@product.Id)">Dodaj produkt do posiłku</a> *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                    {
+                        <td>
+                            @if (i != Model.CurrentPage)
+                            {
+                                <a href="javascript:PagerClick(@i)" class="page-link">@i</a>
+                            }
+                            else
+                            {
+                                <span class="page-link">@i</span>
+                            }
+                        </td>
+                    }
+                    </tr>
+                    </table>
+                    <input type="hidden" name="pageNo" id="pageNo"></input>
+                    <input type="hidden" name="pageSize" id="pageSize" value="10"></input>
+                    <input type="hidden" name="mealId" value="@TempData["MealId"]" />
+</form>
+
+        </div>
+    </div>
+    @section Scripts
+    {
+        <script type="text/javascript">
+            function PagerClick(index) {
+                document.getElementById("pageNo").value = index;
+                document.forms[0].submit();
+            }
+        </script>
+    }

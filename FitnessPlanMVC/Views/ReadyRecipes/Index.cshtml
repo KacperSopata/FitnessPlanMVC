@@ -1,0 +1,86 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.ReadyRecipes.ListReadyRecipesVm
+
+
+@{
+	ViewBag.Title = "Ready Recipes";
+	Layout = "_Layout";
+}
+
+<div class="container">
+	<h1 class="page-title">Ready Recipes</h1>
+	<!-- Sekcja wyszukiwania -->
+	<form asp-action="Index" method="get" class="form-inline mb-4">
+		<div class="form-group">
+			<label for="searchString" class="sr-only">Search for a recipe:</label>
+			<input type="text" name="searchString" class="form-control mr-2" placeholder="Search for a recipe..." value="@Model.SearchString" />
+		</div>
+		<button type="submit" class="btn btn-primary">Search</button>
+	</form>
+
+	<!-- Link do dodania nowego przepisu -->
+	<div class="mb-3">
+		<a asp-action="AddReadyRecipes" class="btn btn-black">Add a new recipe</a>
+	</div>
+
+	<!-- Tabela wyświetlająca listę przepisów -->
+	@if (Model.ReadyRecipes != null && Model.ReadyRecipes.Any())
+	{
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Brief description</th>
+					<th>Picture</th>
+					<th>Shares</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var recipe in Model.ReadyRecipes)
+				{
+					<tr>
+						<td>@recipe.Title</td>
+						<td>@recipe.Description</td>
+						<td>
+							@if (recipe.Image != null && recipe.Image.Length > 0)
+							{
+								<img src="data:image/jpeg;base64,@(Convert.ToBase64String(recipe.Image))" alt="Obrazek przepisu" style="width: 100px; height: auto;" />
+							}
+							else
+							{
+								<p>Brak obrazka</p>
+							}
+						</td>
+						<td>
+							<a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-black btn-sm">Preview</a>
+							<form asp-action="DeleteConfirmed" asp-route-id="@recipe.Id" method="post" style="display:inline-block;">
+								@Html.AntiForgeryToken()
+								<button type="submit" class="btn btn-black btn-sm" onclick="return confirm('Are you sure you want to delete this recipe??');">Delet</button>
+							</form>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		<div class="no-plans-message text-center">
+			<p>No recipes to display.</p>
+		</div>
+	}
+
+	<!-- Paginacja -->
+	@if (Model.Count > Model.PageSize)
+	{
+		<nav aria-label="Paginacja">
+			<ul class="pagination justify-content-center">
+				@for (int i = 1; i <= (Model.Count + Model.PageSize - 1) / Model.PageSize; i++)
+				{
+					<li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+						<a class="page-link" asp-action="Index" asp-route-pageNo="@i" asp-route-searchString="@Model.SearchString">@i</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
+</div>

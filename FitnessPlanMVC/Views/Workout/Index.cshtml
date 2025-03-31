@@ -1,0 +1,77 @@
+﻿@using FitnessPlanMVC.Domain.Model
+@using FitnessPlanMVC.Application.ViewModels.Workout
+@model List<WorkoutDetailVm>
+
+@{
+    ViewBag.Title = "Training journal";
+    Layout = "_Layout";
+    var selectedDate = ViewBag.SelectedDate as DateTime? ?? DateTime.Today;
+    string startDateValue = selectedDate.ToString("yyyy-MM-dd");
+}
+
+<h1 class="page-title text-center">Training Journal</h1>
+
+
+<form id="workoutForm" asp-action="Index" asp-controller="Workout" method="get">
+    <div class="row mb-3">
+        <label for="workoutDayId">Select a date:</label>
+        <input id="workoutDayId" name="selectedDate" type="date" value="@startDateValue" class="form-control" />
+        <button type="button" class="btn btn-primary ml-2" onclick="location.href='@Url.Action("AddWorkoutToDay", new { workoutData = startDateValue })'">Create a new workout</button>
+    </div>
+</form>
+
+@foreach (var workout in Model)
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Description:</strong> @workout.Description |
+            <strong>Date:</strong> @workout.StartWorkout.ToString("yyyy-MM-dd")
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-secondary mb-2" onclick="location.href='@Url.Action("AddExerciseToWorkout", new { workoutId = workout.Id })'">Add exercise</button>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Exercise name</th>
+                        <th>Sets</th>
+                        <th>Reps</th>
+                        <th>Weight</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (workout.Exercises == null || !workout.Exercises.Any())
+                    {
+                        <tr><td colspan="5" class="text-center">Lack exercise</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var exercise in workout.Exercises.OrderByDescending(e => e.Id))
+                        {
+                            <tr>
+                                <td>@exercise.Name</td>
+                                <td>@exercise.Sets</td>
+                                <td>@exercise.Reps</td>
+                                <td>@exercise.Weight</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "EditExercise2", new { workoutId = exercise.Id }, new { @class = "btn btn-sm btn-outline-dark" }) |
+                                    @Html.ActionLink("Details", "Details", new { id = exercise.Id }, new { @class = "btn btn-sm btn-outline-info" }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = exercise.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-danger mt-2" onclick="location.href='@Url.Action("DeleteWorkout", new { workoutid = workout.Id, workoutData = workout.StartWorkout.ToString("yyyy-MM-dd") })'">Delete training</button>
+        </div>
+    </div>
+}
+
+<script>
+    document.getElementById("workoutDayId").addEventListener("change", function () {
+        document.getElementById("workoutForm").submit();
+    });
+</script>

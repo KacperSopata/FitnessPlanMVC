@@ -1,0 +1,30 @@
+﻿﻿@{
+    ViewBag.Title = "Recipe details";
+    Layout = "_Layout";
+}
+
+<div class="recipe-details">
+    <div>
+        @if (Model.Image != null && Model.Image.Length > 0)
+        {
+            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))"
+                 alt="Image"
+                 style="display: block; margin: 50px auto 0 auto; max-width: 400px; height: auto;" />
+        }
+    </div>
+    <div>
+        <h2>@Model.Title</h2>
+    </div>
+    <div>
+        <h4>Description:</h4>
+        <p>@Model.Description</p>
+    </div>
+    <div>
+        <h4>Ingredients:</h4>
+        <p>@Model.Ingredients</p>
+    </div>
+    <div>
+        <h4>Instructions:</h4>
+        <p>@Model.Instructions</p>
+    </div>
+</div>

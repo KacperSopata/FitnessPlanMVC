@@ -1,0 +1,58 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout.NewReadyPlanWorkoutVm
+
+@{
+    ViewBag.Title = "Add a New Training Plan";
+    Layout = "_Layout";
+}
+
+<h2>Add a New Training Plan</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PlanType"></label>
+        <input asp-for="PlanType" class="form-control" placeholder="e.g. Cardio, Strength..." />
+        <span asp-validation-for="PlanType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Difficulty"></label>
+        <select asp-for="Difficulty" class="form-control">
+            <option value="">Select difficulty level:</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+        <span asp-validation-for="Difficulty" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" placeholder="Short description of the plan..."></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PlanDetails"></label>
+        <textarea asp-for="PlanDetails" class="form-control" placeholder="Detailed information about the plan..."></textarea>
+        <span asp-validation-for="PlanDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="VideoUrl"></label>
+        <input asp-for="VideoUrl" class="form-control" placeholder="Link to the video (optional)..." />
+        <span asp-validation-for="VideoUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Plan</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

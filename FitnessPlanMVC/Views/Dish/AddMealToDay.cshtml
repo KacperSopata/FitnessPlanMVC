@@ -1,0 +1,31 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.UserMeal.UserNewMealVm
+
+@{
+    ViewBag.Title = "Dodaj posiłek";
+    Layout = "_Layout";
+}
+<h2>Add a meal</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddMealToDay">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Id" />
+            </div>
+            <input type="hidden" name="mealData" value="@Model.Data" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Nazwa</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+</div>

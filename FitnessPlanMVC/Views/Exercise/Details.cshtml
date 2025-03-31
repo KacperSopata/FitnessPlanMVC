@@ -1,0 +1,37 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.Exercise.ExerciseDetailVm
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "_Layout";
+
+}
+
+<h2>Details</h2>
+
+<div class="exercise-details">
+    <div>
+        <strong>Name:</strong>
+        @Html.DisplayFor(exercise => exercise.Name)
+    </div>
+    <div>
+        <strong>Description:</strong>
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div>
+        <strong>Instruction:</strong>
+        @Html.DisplayFor(exercise => exercise.Instruction)
+    </div>
+    <div>
+        <strong>Involved Parties:</strong>
+        @Html.DisplayFor(exercise => exercise.InvolvedParties)
+    </div>
+    <div>
+        <strong>Tips:</strong>
+        @Html.DisplayFor(model => model.Tips)
+    </div> 
+    <div>
+        <strong>Tips:</strong>
+        @Html.DisplayFor(model => model.VideoUrl)
+    </div>
+</div>

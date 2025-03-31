@@ -1,0 +1,74 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.Exercise.ListExerciseForListVm
+
+@{
+    ViewBag.Title = "Exercise atlas";
+    Layout = "_Layout";
+
+}
+
+<div class="container">
+    <h1 class="page-title">Exercise atlas</h1>
+
+    <form asp-action="Index" asp-controller="Exercise" method="get">
+        <div class="row mb-3">
+            <input type="text" asp-for="SearchString" name="searchString" id="searchString" class="form-control" placeholder="Search for an exercise" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Actions</th> <!-- Dodanie nagłówka dla kolumny akcji -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var exercise in Model.ExerciseForListVm)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelExercise => exercise.Name)</td>
+                        <td>@Html.ActionLink("Details", "Details", new { id = exercise.Id }, new { @class = "btn btn-details" })</td> <!-- Przycisk "Details" umieszczony w <td> -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            @if (i != Model.CurrentPage)
+                            {
+                                <a class="btn-details" href="@Url.Action("Index", new { pageNo = i, pageSize = Model.PageSize, searchString = Model.SearchString })">@i</a>
+                            }
+                            else
+                            {
+                                <span class="btn-details" style="pointer-events: none;">@i</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Ukryte pola formularza -->
+    <input type="hidden" name="pageNo" id="pageNo" value="@Model.CurrentPage" />
+    <input type="hidden" name="pageSize" id="pageSize" value="5" />
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNo").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+}

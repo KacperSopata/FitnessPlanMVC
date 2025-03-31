@@ -1,0 +1,53 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.ReadyRecipes.NewReadyRecipesVm
+@{
+    ViewBag.Title = "Add a new recipe";
+    Layout = "_Layout";
+}
+
+<h2>Add a new recipe</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddReadyRecipes" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Recipe Title</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Ingredients" class="control-label">Ingredients</label>
+                <textarea asp-for="Ingredients" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Ingredients" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Instructions" class="control-label">Instructions</label>
+                <textarea asp-for="Instructions" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="Instructions" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageContent" class="control-label">Photo</label>
+                <input asp-for="ImageContent" type="file" class="form-control" />
+                <span asp-validation-for="ImageContent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add recipes" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

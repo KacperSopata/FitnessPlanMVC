@@ -1,0 +1,132 @@
+﻿@using FitnessPlanMVC.Domain.Model
+@using FitnessPlanMVC.Application.ViewModels.StandardMeal
+@model FitnessPlanMVC.Application.ViewModels.StandardMeal.ListStandardMealsForListVm
+
+@{
+    ViewBag.Title = "Diet journal";
+    Layout = "_Layout";
+}
+<h1>Diet journal</h1>
+
+@using (Html.BeginForm("AddMealsToDay", "Meal", FormMethod.Post))
+{
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="selectedDate">Select a date:</label>
+            <input id="selectedDate" name="selectedDate" type="date" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-black">Create a menu</button>  <!-- Czarny przycisk -->
+        </div>
+    </div>
+}
+
+<table class="table">
+    <thead>
+    </thead>
+    <tbody>
+        @foreach (var meal in Model.Meals)
+        {
+            var totalCaloriesForMeal = Math.Round(meal.Products.Sum(product => product.Calories * product.Grammage / 100.0), 2);
+            var totalProteinForMeal = Math.Round(meal.Products.Sum(product => product.Protein * product.Grammage / 100.0), 2);
+            var totalFatForMeal = Math.Round(meal.Products.Sum(product => product.Fat * product.Grammage / 100.0), 2);
+            var totalCarboForMeal = Math.Round(meal.Products.Sum(product => product.Carbohydrates * product.Grammage / 100.0), 2);
+            <tr>
+                <td>
+                    @meal.Data.ToString("yyyy-MM-dd")
+                    @Html.DisplayFor(modelProduct => meal.Name)
+                </td>
+                <td>@Html.DisplayFor(modelProduct => totalCaloriesForMeal)Kcal</td>
+                <td>B @Html.DisplayFor(modelProduct => totalProteinForMeal)</td>
+                <td>T @Html.DisplayFor(modelProduct => totalFatForMeal)</td>
+                <td>W @Html.DisplayFor(modelProduct => totalCarboForMeal)</td>
+                <td>
+                    @Html.ActionLink("Add product", "ListOfProduct", new { mealId = meal.Id }, new { @class = "btn btn-black" }) <!-- Czarny przycisk -->
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <details>
+                        <summary>Products in the meal</summary>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Grammage</th>
+                                    <th>Calories</th>
+                                    <th>Proteins</th>
+                                    <th>Fats</th>
+                                    <th>Carbohydrates</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (meal.Products == null || !meal.Products.Any())
+                                {
+                                    <tr>
+                                        <td colspan="5">No products</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var product in meal.Products)
+                                    {
+                                        var calculatedCalories = Math.Round(product.Calories * product.Grammage / 100.0, 2);
+                                        var calculatedProtein = Math.Round(product.Protein * product.Grammage / 100.0, 2);
+                                        var calculatedCFat = Math.Round(product.Fat * product.Grammage / 100.0, 2);
+                                        var calculatedCarbo = Math.Round(product.Carbohydrates * product.Grammage / 100.0, 2);
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelProduct => product.Name)</td>
+                                            <td>@Html.DisplayFor(modelProduct => product.Grammage)g</td>
+                                            <td>@Html.DisplayFor(modelProduct => calculatedCalories)Kcal</td>
+                                            <td>@Html.DisplayFor(modelProduct => calculatedProtein)</td>
+                                            <td>@Html.DisplayFor(modelProduct => calculatedCFat)</td>
+                                            <td>@Html.DisplayFor(modelProduct => calculatedCarbo)</td>
+                                            <td>
+                                                @Html.ActionLink("Delete", "DeleteProduct", new { id = product.Id }, new { @class = "btn btn-black" }) <!-- Czarny przycisk -->
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </details>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                {
+                    <td>
+                        @if (i != Model.CurrentPage)
+                        {
+                            <a href="javascript:PagerClick(@i)" class="page-link">@i</a>
+                        }
+                        else
+                        {
+                            <span class="page-link">@i</span>
+                        }
+                    </td>
+                }
+                </tr>
+                </table>
+                <input type="hidden" name="pageNo" id="pageNo"></input>
+                <input type="hidden" name="pageSize" id="pageSize" value="10"></input>
+                <input type="hidden" name="mealId" value="@TempData["MealId"]" />
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNo").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+}

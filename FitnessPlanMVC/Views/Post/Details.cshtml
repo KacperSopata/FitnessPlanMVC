@@ -1,0 +1,23 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.Post.PostDetailVm
+
+@{
+    ViewBag.Title = "Post Details";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">@Model.Title</h2>
+
+    @if (Model.Image != null)
+    {
+        <div class="mb-3">
+            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Image)" alt="Post Image" class="img-fluid rounded shadow-sm" style="max-width: 600px;" />
+        </div>
+    }
+
+    <div class="mb-4">
+        <p>@Model.Content</p>
+    </div>
+
+    <a asp-action="Index" class="btn btn-secondary">Back to list</a>
+</div>

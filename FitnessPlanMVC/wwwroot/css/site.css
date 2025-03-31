@@ -1,0 +1,145 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Sekcja ogólna */
+.section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.section-dark {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+.section-light {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Sekcje z obrazami */
+.section1 {
+    background-image: url('/images/section2.jpg');
+}
+
+.section2 {
+    background-image: url('/images/gymmvc.jpg');
+}
+
+.section-content {
+    margin-bottom: 150px;
+}
+
+    .section-content h1,
+    .section-content h2 {
+        font-size: 8rem;
+        font-weight: 800;
+        margin-bottom: 1.2rem;
+        color: white;
+    }
+
+    .section-content p {
+        font-size: 5.5rem;
+        margin-bottom: 2.5rem;
+        color: white;
+    }
+
+/* PRZYCISKI - SPÓJNY STYL */
+button,
+.btn,
+a.btn,
+a.btn-cta,
+a.cta-button,
+.cta-button,
+.challenge-box button {
+    background-color: #000;
+    color: #fff !important;
+    padding: 1.4rem 2.8rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    display: inline-block;
+    text-align: center;
+}
+
+    button:hover,
+    .btn:hover,
+    a.btn:hover,
+    a.btn-cta:hover,
+    .cta-button:hover,
+    .challenge-box button:hover {
+        background-color: #333;
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+/* Kontenery planów */
+.challenge-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 2rem; /* trochę przestrzeni po bokach */
+}
+
+.challenge-box {
+    background-color: #f1f1f1;
+    padding: 2.2rem;
+    border-radius: 22px;
+    max-width: 32%; /* mniej sztywne ograniczenie */
+    flex: 1 1 300px; /* pozwala się bardziej rozciągnąć */
+    min-width: 400px; /* nadal wygląda dobrze na małych ekranach */
+    box-shadow: 0 9px 22px rgba(0, 0, 0, 0.15);
+    color: #000;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+
+    .challenge-box h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .challenge-box p {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+
+/* Linki bez ramek i niebieskich podkreśleń */
+a,
+a:hover,
+a:visited,
+a:active,
+a:focus {
+    text-decoration: none !important;
+    outline: none;
+    box-shadow: none;
+    color: inherit !important;
+}
+    a.btn-cta,
+    a.cta-button {
+        color: white !important;
+        text-decoration: none !important;
+    }

@@ -1,0 +1,57 @@
+﻿@model List<FitnessPlanMVC.Application.ViewModels.Challenge.UserChallengeVm>
+
+@{
+    ViewBag.Title = "My Challenges";
+    Layout = "_Layout";
+}
+
+<h2 class="mb-4">My Challenges</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You have not joined any challenges yet.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Challenge</th>
+                <th>Progress</th>
+                <th>Completed</th>
+                <th>Completion Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var challenge in Model)
+            {
+                <tr>
+                    <td>@challenge.ChallengeName</td>
+                    <td>
+                        @challenge.Progress
+                    </td>
+                    <td>@(challenge.IsCompleted ? "Yes" : "No")</td>
+                    <td>@(challenge.CompletionDate?.ToShortDateString() ?? "-")</td>
+                    <td>
+                        @if (!challenge.IsCompleted)
+                        {
+                            <form asp-action="MarkProgress" asp-controller="Challenge" method="post" class="d-inline">
+                                <input type="hidden" name="challengeId" value="@challenge.ChallengeId" />
+                                <button type="submit" class="btn btn-success btn-sm">+1 Progress</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Completed</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a class="btn btn-secondary mt-3" asp-controller="Challenge" asp-action="Index">Back to All Challenges</a>

@@ -1,0 +1,68 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.Product.ListProductForListVM
+
+@{
+    ViewBag.Title = "Product Database";
+    Layout = "_Layout";
+}
+
+<h1 class="page-title text-center">Product Database</h1>
+
+<p>
+    <a class="btn-details" asp-action="AddProduct">Create New Product</a>
+</p>
+
+<form asp-action="Index" asp-controller="Product" method="post">
+    <div class="row">
+        <input type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Search product..." />
+        <input type="submit" value="Search" />
+    </div>
+</form>
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelProduct => product.Name)
+                    </td>
+                    <td class="text-end">
+                        <div class="d-inline-flex gap-2">
+                            <a class="btn btn-sm" asp-action="EditProduct" asp-route-id="@product.Id">Edit</a>
+                            <a class="btn btn-sm" asp-action="Details" asp-route-id="@product.Id">Details</a>
+                            <a class="btn btn-sm" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.Count > Model.PageSize)
+{
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= (Model.Count + Model.PageSize - 1) / Model.PageSize; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    @if (i != Model.CurrentPage)
+                    {
+                        <a class="btn-details" asp-action="Index" asp-route-pageNo="@i" asp-route-searchString="@Model.SearchString">@i</a>
+                    }
+                    else
+                    {
+                        <span class="btn-details" style="pointer-events: none;">@i</span>
+                    }
+                </li>
+            }
+        </ul>
+    </nav>
+}

@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
+<main>
+    <!-- Section 1 with background image -->
+    <div class="section section-image section1" id="section1">
+        <div class="section-content">
+            <h1 class="hero-title">Your Fitness Plan</h1>
+            <p class="hero-subtitle">Join our community and achieve your goals!</p>
+            <a class="cta-button" asp-controller="Exercise" asp-action="Index">Explore Exercises</a>
+        </div>
+    </div>
+
+    <!-- Section 2 with dark background -->
+    <div class="section section-dark" id="section2">
+        <div class="challenge-container">
+            <div class="challenge-box">
+                <h2>🏋️‍♂️ ReadyPlanWorkouts</h2>
+                <p>Check out our workouts, specially designed to help you achieve your fitness goals! Whether you want to build muscle, lose weight, or improve your fitness, our plans are tailored to different levels of experience. Each plan includes detailed instructions, videos, and 3D animations to help you exercise correctly and effectively. Start today to see quick results!</p>
+                <a class="btn-cta" asp-controller="ReadyPlanWorkout" asp-action="Index">Check our Workout Plans</a>
+            </div>
+            <div class="challenge-box">
+                <h2>🍎 ReadyRecipes</h2>
+                <p>We offer healthy, delicious, and easy-to-make recipes that will help you reach your fitness goals! Our recipes are tailored to various diets (e.g., vegetarian, keto, gluten-free) and taste preferences. Here you'll find healthy meals for breakfast, lunch, dinner, and snacks that will fuel your body and support recovery after workouts. Eat healthy to achieve better results!</p>
+                <a class="btn-cta" asp-controller="ReadyRecipes" asp-action="Index">Check our Diets</a>
+            </div>
+            <div class="challenge-box">
+                <h2>🏆 Challenges</h2>
+                <p>Join our inspiring fitness challenges and see how much you can achieve! You'll be motivated to work out regularly while competing with other participants in various challenges like “100 Squats in 30 Days.” By taking part in these challenges, you'll improve your endurance, strength, and stamina, and enjoy the satisfaction of pushing your limits! Challenges are available for all levels of experience!</p>
+                <a class="btn-cta" asp-controller="Challenge" asp-action="Index">Check our Challenges</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3 with background image -->
+    <div class="section section-image section2" id="section3">
+        <div class="section-content">
+            <h1>Exercises & Plans</h1>
+            <p>"Never give up on a goal just because it will take time to achieve. The time will pass anyway."</p>
+            <a class="btn-cta" asp-controller="ReadyPlanWorkout" asp-action="Index">View Plans</a>
+        </div>
+    </div>
+</main>

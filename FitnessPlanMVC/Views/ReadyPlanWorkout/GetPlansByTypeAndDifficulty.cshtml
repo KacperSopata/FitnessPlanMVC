@@ -1,0 +1,45 @@
+﻿@model IEnumerable<FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout.ReadyPlanWorkoutForListVm>
+
+@{
+    ViewBag.Title = "Workout Search Results";
+    Layout = "_Layout";
+}
+
+<h2>Workout Search Results:</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Plan Type</th>
+                <th>Difficulty</th>
+                <th>Description</th>
+                <th>Plan Details</th>
+                <th>Video URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var plan in Model)
+            {
+                <tr>
+                    <td>@plan.Name</td>
+                    <td>@plan.PlanType</td>
+                    <td>@plan.Difficulty</td>
+                    <td>@plan.Description</td>
+                    <td>@plan.PlanDetails</td>
+                    <td>
+                        <a href="@plan.VideoUrl" target="_blank">Watch Video</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No results for selected criteria.</p>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Back to Search</a>

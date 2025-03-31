@@ -1,0 +1,78 @@
+﻿@{
+    var isHomePage = ViewContext.RouteData.Values["controller"]?.ToString() == "Home" &&
+                     ViewContext.RouteData.Values["action"]?.ToString() == "Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FitnessPlanMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/zobaczymy.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/FitnessPlanMVC.styles.css" asp-append-version="true" />
+
+    @RenderSection("Styles", required: false) <!-- ← TO DODAJ -->
+</head>
+
+<body class="@(isHomePage ? "home-page" : "")">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm py-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold fs-4 text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                    FitnessPlanMVC
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5 fw-semibold">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Calculator" asp-action="Index">Calculator CPM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Post" asp-action="Index">Knowledge base</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ReadyPlanWorkout" asp-action="Index">Ready Plan Workouts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ReadyRecipes" asp-action="Index">Ready Recipes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Exercise" asp-action="Index">Exercise atlas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Product database</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Dish" asp-action="Index">Diet journal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Workout" asp-action="Index">Training journal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Challenge" asp-action="Index">Challenges</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="@(isHomePage ? "" : "container")">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

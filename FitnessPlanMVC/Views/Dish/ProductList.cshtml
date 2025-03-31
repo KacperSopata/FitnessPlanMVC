@@ -1,0 +1,72 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.Product.ListProductForListVM
+
+@{
+    ViewBag.Title = "Base Product";
+    Layout = "_Layout";
+}
+
+<h1>Base Product</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="ProductList" asp-controller="Dish" method="post">
+    <div class="row mb-3">
+        <input type="text" asp-for="SearchString" name="searchString" id="searchString" class="form-control" placeholder="Search for a product" />
+        <input type="submit" value="Search" class="btn btn-dark" />
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelProduct => product.Name)</td>
+                        <td>
+                            @Html.ActionLink("Add", "AddProductToMeal", new { mealId = @ViewBag.MealId, productId = @product.Id }, new { @class = "btn btn-success" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a href="@Url.Action("ProductList", new { mealId = ViewBag.MealId, pageNo = i, pageSize = Model.PageSize, searchString = Model.SearchString })" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hidden form fields -->
+    <input type="hidden" name="pageNo" id="pageNo" value="@Model.CurrentPage" />
+    <input type="hidden" name="pageSize" id="pageSize" value="10" />
+    <input type="hidden" name="mealId" value="@TempData["MealId"]" />
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNo").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+}
