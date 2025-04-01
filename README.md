@@ -80,7 +80,7 @@ dotnet ef database update
 
 **Kacper Sopata**  
 Junior .NET Developer  
-🔗 [GitHub](https://github.com/KacperSopata) • [LinkedIn](https://linkedin.com/in/KacperSopata)
+🔗 [GitHub](https://github.com/KacperSopata) • [LinkedIn](https://www.linkedin.com/in/kacper-sopata-61b505310/)
 
 ---
 
