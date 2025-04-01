@@ -19,6 +19,8 @@ namespace FitnessPlanMVC.Application.ViewModels.UserMeal
         public float Protein { get; set; }
         public float Fat { get; set; }
         public float Carbohydrates { get; set; }
+        public string ApplicationUser { get; set; }
+        public string UserId { get; set; }
         public List<Product.ProductForListVM> Products { get; set; }
         public void ConfigureMapping(Profile profile)
         {

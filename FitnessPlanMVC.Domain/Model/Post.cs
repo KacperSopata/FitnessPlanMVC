@@ -12,6 +12,7 @@ namespace FitnessPlanMVC.Domain.Model
         public string Title { get; set; }
         public string Content { get; set; }
         public byte[] Image { get; set; }
-
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace FitnessPlanMVC.Domain.Model
         public string Description { get; set; }
         public string Instruction { get; set; }
         public string Tips { get; set; }
-        public string? VideoUrl { get; set; }
         public string InvolvedParties { get; set; }
         public ICollection<WorkoutExercise> WorkoutExercise { get; set; }
     }

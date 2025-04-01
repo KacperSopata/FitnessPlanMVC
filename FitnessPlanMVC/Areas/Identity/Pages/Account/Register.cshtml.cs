@@ -180,3 +180,4 @@ namespace FitnessPlanMVC.Areas.Identity.Pages.Account
         }
     }
 }
+

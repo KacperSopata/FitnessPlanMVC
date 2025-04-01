@@ -13,6 +13,7 @@ namespace FitnessPlanMVC.Application.Interfaces
         ExerciseDetailVm GetExerciseDetail(int id);
         ListExerciseForListVm GetAllExercisesForList2();
         ExerciseDetailVm GetExerciseDetailByWorkoutExercise(int id);
+        int AddExercise(NewExerciseVm model);
 
     }
 }

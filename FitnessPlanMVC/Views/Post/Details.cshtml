@@ -5,19 +5,16 @@
     Layout = "_Layout";
 }
 
-<div class="container mt-5">
-    <h2 class="mb-4">@Model.Title</h2>
+<div class="recipe-detail-card">
+    <h2>@Model.Title</h2>
 
     @if (Model.Image != null)
     {
-        <div class="mb-3">
-            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Image)" alt="Post Image" class="img-fluid rounded shadow-sm" style="max-width: 600px;" />
-        </div>
+        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" alt="Post Image" class="recipe-image" />
     }
 
-    <div class="mb-4">
+    <div class="recipe-section">
+        <h4>Content:</h4>
         <p>@Model.Content</p>
     </div>
-
-    <a asp-action="Index" class="btn btn-secondary">Back to list</a>
 </div>

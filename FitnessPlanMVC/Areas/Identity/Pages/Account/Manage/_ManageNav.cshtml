@@ -1,16 +1,28 @@
 @using FitnessPlanMVC.Domain.Model
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profil</a></li>
-    @* <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li> *@
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
-   @*  @if (hasExternalLogins)
+
+<div class="d-flex flex-column gap-2">
+    <a class="btn @(ManageNavPages.IndexNavClass(ViewContext) == "active" ? "btn-primary" : "btn-secondary")"
+       asp-page="./Index" id="profile">Profile</a>
+
+    @* <a class="btn @(ManageNavPages.EmailNavClass(ViewContext) == "active" ? "btn-primary" : "btn-secondary")" 
+           asp-page="./Email" id="email">Email</a> *@
+
+    <a class="btn @(ManageNavPages.ChangePasswordNavClass(ViewContext) == "active" ? "btn-primary" : "btn-secondary")"
+       asp-page="./ChangePassword" id="change-password">Password</a>
+
+    @* @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        <a class="btn @(ManageNavPages.ExternalLoginsNavClass(ViewContext) == "active" ? "btn-primary" : "btn-secondary")" 
+           asp-page="./ExternalLogins" id="external-login">External logins</a>
     } *@
-    @* <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li> *@
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Delete Account</a></li>
-</ul>
+
+    @* <a class="btn @(ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) == "active" ? "btn-primary" : "btn-secondary")" 
+           asp-page="./TwoFactorAuthentication" id="two-factor">Two-factor authentication</a> *@
+
+    <a class="btn @(ManageNavPages.PersonalDataNavClass(ViewContext) == "active" ? "btn-primary" : "btn-secondary")"
+       asp-page="./PersonalData" id="personal-data">Delete Account</a>
+</div>

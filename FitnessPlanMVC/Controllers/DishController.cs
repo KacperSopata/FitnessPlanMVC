@@ -1,7 +1,9 @@
 ﻿using FitnessPlanMVC.Application.Interfaces;
 using FitnessPlanMVC.Application.Services;
 using FitnessPlanMVC.Application.ViewModels.UserMeal;
+using FitnessPlanMVC.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessPlanMVC.Controllers
@@ -10,11 +12,13 @@ namespace FitnessPlanMVC.Controllers
     {
         private readonly IUserMealService _UserMealService;
         private readonly IProductService _productService;
-
-        public DishController(IUserMealService mealService, IProductService productService)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public DishController(UserManager<ApplicationUser> userManager, IUserMealService mealService, IProductService productService)
         {
             _UserMealService = mealService;
             _productService = productService;
+            _userManager = userManager;
+
         }
 
         [Authorize]
@@ -24,10 +28,12 @@ namespace FitnessPlanMVC.Controllers
             {
                 selectedDate = DateTime.Today;
             }
-            var model = _UserMealService.GetMeal(null, selectedDate.Value); // przekazujemy null jako userId
+            var userId = _userManager.GetUserId(User);
+            var model = _UserMealService.GetMeal(userId, selectedDate.Value);
             model.Data = selectedDate.Value;
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult AddMealToDay(DateTime mealData)
@@ -38,10 +44,19 @@ namespace FitnessPlanMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddMealToDay(UserNewMealVm model)
+        public async Task<IActionResult> AddMealToDay(UserNewMealVm model)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+            model.UserId = user.Id;
+
+
             var id = _UserMealService.AddMeal(model);
             DateTime mealDate = model.Data;
+
             return RedirectToAction("Index", new { selectedDate = mealDate });
         }
 
@@ -68,8 +83,14 @@ namespace FitnessPlanMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProductToMeal(NewProductInUserInMealVm model)
+        public async Task<IActionResult> AddProductToMeal(NewProductInUserInMealVm model)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+            model.UserId = user.Id;
             bool productExists = _UserMealService.DoesProductExistInMeal(model.MealId, model.ProductId);
             if (!productExists)
             {
@@ -91,7 +112,6 @@ namespace FitnessPlanMVC.Controllers
             ViewBag.MealId = mealId;
             return View(model);
         }
-
         [HttpPost]
         public IActionResult ProductList(int pageSize, int? pageNo, string searchString)
         {
@@ -101,7 +121,7 @@ namespace FitnessPlanMVC.Controllers
             }
             if (searchString is null)
             {
-                searchString = string.Empty;
+                searchString = String.Empty;
             }
             var model = _productService.GetAllProductForList(pageSize, pageNo.Value, searchString);
             return View(model);
@@ -113,6 +133,7 @@ namespace FitnessPlanMVC.Controllers
             return RedirectToAction("Index", new { selectedDate = mealData });
         }
 
+
         [HttpGet]
         public IActionResult EditGrammage(int mealId)
         {
@@ -123,8 +144,11 @@ namespace FitnessPlanMVC.Controllers
         [HttpPost]
         public IActionResult EditGrammage(NewProductInUserInMealVm model)
         {
+            var userId = _userManager.GetUserId(User);
+            model.UserId = userId;
             _UserMealService.UpdateProduct(model);
             var mealDate = _UserMealService.GetMealDate(model.MealId);
+
             return RedirectToAction("Index", new { selectedDate = mealDate });
         }
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FitnessPlanMVC.Application.Mapping;
+using FitnessPlanMVC.Domain.Model;
 
 namespace FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout
 {
@@ -17,6 +18,8 @@ namespace FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout
         public string Description { get; set; }
         public string PlanDetails { get; set; }
         public string VideoUrl { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<FitnessPlanMVC.Domain.Model.ReadyPlanWorkout, ReadyPlanWorkoutDetailVm>();

@@ -1,4 +1,6 @@
 ﻿using FitnessPlanMVC.Application.Interfaces;
+using FitnessPlanMVC.Application.ViewModels.Exercise;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessPlanMVC.Controllers
@@ -43,5 +45,21 @@ namespace FitnessPlanMVC.Controllers
             var model = _exerciseService.GetExerciseDetail(id);
             return View(model);
         }
+        [HttpGet]
+        public IActionResult AddExercise()
+        {
+            return View(new NewExerciseVm());
+        }
+
+        [HttpPost]
+        public IActionResult AddExercise(NewExerciseVm model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _exerciseService.AddExercise(model);
+            return RedirectToAction("Index");
+        }
+
     }
 }

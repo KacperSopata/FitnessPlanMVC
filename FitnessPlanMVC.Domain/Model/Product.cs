@@ -14,6 +14,8 @@ namespace FitnessPlanMVC.Domain.Model
         public float Protein { get; set; }
         public float Fat { get; set; }
         public float Carbohydrates { get; set; }
-        //public ICollection<MealProduct> MealProducts { get; set; }
+        public ICollection<MealProduct> MealProducts { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

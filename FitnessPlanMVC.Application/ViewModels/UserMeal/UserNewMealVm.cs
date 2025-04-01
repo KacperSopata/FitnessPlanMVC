@@ -14,6 +14,9 @@ namespace FitnessPlanMVC.Application.ViewModels.UserMeal
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Data { get; set; }
+        public string ApplicationUser { get; set; }
+        public string UserId { get; set; }
+
         public List<ProductForListVm> Products { get; set; }
         public void ConfigureMapping(Profile profile)
         {

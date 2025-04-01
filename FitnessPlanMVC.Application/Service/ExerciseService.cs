@@ -8,6 +8,7 @@ using AutoMapper.QueryableExtensions;
 using FitnessPlanMVC.Application.Interfaces;
 using FitnessPlanMVC.Application.ViewModels.Exercise;
 using FitnessPlanMVC.Domain.Interfaces;
+using FitnessPlanMVC.Domain.Model;
 
 namespace FitnessPlanMVC.Application.Service
 {
@@ -58,6 +59,12 @@ namespace FitnessPlanMVC.Application.Service
             var exercise = _exerciseRepo.GetDetailByWorkoutExercise(id);
             var exerciseVm = _mapper.Map<ExerciseDetailVm>(exercise);
             return exerciseVm;
+        }
+        public int AddExercise(NewExerciseVm model)
+        {
+            var exercise = _mapper.Map<Exercise>(model);
+            _exerciseRepo.AddExercise(exercise);
+            return exercise.Id;
         }
     }
 }

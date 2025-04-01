@@ -15,5 +15,7 @@ namespace FitnessPlanMVC.Domain.Model
         public string Description { get; set; }
         public string PlanDetails { get; set; }
         public string? VideoUrl { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

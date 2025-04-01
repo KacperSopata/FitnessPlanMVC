@@ -10,16 +10,18 @@ namespace FitnessPlanMVC.Controllers
 {
     public class WorkoutController : Controller
     {
-
         private readonly IWorkoutService _workoutService;
         private readonly IExerciseService _exerciseService;
-        public WorkoutController(IWorkoutService workoutService,
+        private readonly UserManager<ApplicationUser> _userManager;
+        public WorkoutController(UserManager<ApplicationUser> userManager, IWorkoutService workoutService,
             IExerciseService exerciseService)
         {
             _workoutService = workoutService;
             _exerciseService = exerciseService;
+            _userManager = userManager;
         }
 
+        [Authorize]
         public IActionResult Index(DateTime? selectedDate)
         {
             if (!selectedDate.HasValue || selectedDate == DateTime.MinValue)
@@ -27,10 +29,14 @@ namespace FitnessPlanMVC.Controllers
                 selectedDate = DateTime.Today;
             }
 
-            var model = _workoutService.GetWorkouts(selectedDate.Value); // <- nowa metoda
-            ViewBag.SelectedDate = selectedDate.Value; // przydatne do formularza wyboru daty
+            var userId = _userManager.GetUserId(User);
+            var workouts = _workoutService.GetWorkouts(userId, selectedDate.Value); // Zmieniamy na GetWorkouts, aby zwrócić listę
+            foreach (var workout in workouts)
+            {
+                workout.StartWorkout = selectedDate.Value; // Przypisanie daty do wszystkich treningów
+            }
 
-            return View(model); // <- teraz model to List<WorkoutDetailVm>
+            return View(workouts); // Zwrócenie listy workoutów
         }
 
 
@@ -43,13 +49,20 @@ namespace FitnessPlanMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddWorkoutToDay(NewWorkoutVm model)
+        public async Task<IActionResult> AddWorkoutToDay(NewWorkoutVm model)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+            model.UserId = user.Id;
             var id = _workoutService.AddWorkout(model);
-            return RedirectToAction("Index", new { selectedDate = model.StartWorkout });
+
+            DateTime workoutDate = model.StartWorkout;
+
+            return RedirectToAction("Index", new { selectedDate = workoutDate });
         }
-
-
 
         [HttpGet]
         public IActionResult AddExerciseToWorkout(int workoutId)
@@ -66,7 +79,12 @@ namespace FitnessPlanMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddExerciseToWorkout(NewWorkoutExerciseVm model)
         {
-
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+            model.UserId = user.Id;
 
             var id = _workoutService.AddExerciseToWorkout(model);
             return RedirectToAction("Index");
@@ -100,6 +118,8 @@ namespace FitnessPlanMVC.Controllers
         [HttpPost]
         public IActionResult EditExercise2(NewWorkoutExerciseVm model)
         {
+            var userId = _userManager.GetUserId(User);
+            model.UserId = userId;
             _workoutService.UpdateExercise(model);
             return RedirectToAction("Index");
         }

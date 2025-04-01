@@ -1,0 +1,39 @@
+﻿@model FitnessPlanMVC.Application.ViewModels.Post.NewPostVm
+
+@{
+    ViewBag.Title = "Create Post";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">📝 Create a New Post</h2>
+
+    <form asp-action="AddPost" method="post" enctype="multipart/form-data" class="mx-auto" style="max-width: 600px;">
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label fw-semibold">Title</label>
+            <input asp-for="Title" class="form-control shadow-sm" />
+            <span asp-validation-for="Title" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Content" class="form-label fw-semibold">Content</label>
+            <textarea asp-for="Content" class="form-control shadow-sm" rows="6"></textarea>
+            <span asp-validation-for="Content" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ImageContent" class="form-label fw-semibold">Image (optional)</label>
+            <input asp-for="ImageContent" type="file" class="form-control shadow-sm" />
+            <span asp-validation-for="ImageContent" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+            <button type="submit" class="btn btn-dark">➕ Add Post</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

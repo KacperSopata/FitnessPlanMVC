@@ -10,8 +10,12 @@ namespace FitnessPlanMVC.Domain.Model
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        public string UserId { get; set; }
+
         public DateTime StartWorkout { get; set; }
         public DateTime EndWorkout { get; set; }
         public ICollection<WorkoutExercise> WorkoutExercises { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
     }
 }

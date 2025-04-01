@@ -1,37 +1,43 @@
 ﻿@model FitnessPlanMVC.Application.ViewModels.Exercise.ExerciseDetailVm
 
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Exercise Details";
     Layout = "_Layout";
-
 }
 
-<h2>Details</h2>
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-center">@Model.Name</h2>
 
-<div class="exercise-details">
-    <div>
-        <strong>Name:</strong>
-        @Html.DisplayFor(exercise => exercise.Name)
-    </div>
-    <div>
-        <strong>Description:</strong>
-        @Html.DisplayFor(model => model.Description)
-    </div>
-    <div>
-        <strong>Instruction:</strong>
-        @Html.DisplayFor(exercise => exercise.Instruction)
-    </div>
-    <div>
-        <strong>Involved Parties:</strong>
-        @Html.DisplayFor(exercise => exercise.InvolvedParties)
-    </div>
-    <div>
-        <strong>Tips:</strong>
-        @Html.DisplayFor(model => model.Tips)
-    </div> 
-    <div>
-        <strong>Tips:</strong>
-        @Html.DisplayFor(model => model.VideoUrl)
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Description:</strong></h5>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Instruction:</strong></h5>
+                <p>@Model.Instruction</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Tips:</strong></h5>
+                <p>@Model.Tips</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Involved Parties:</strong></h5>
+                <p>@Model.InvolvedParties</p>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a asp-action="Index" class="btn btn-secondary">Back to list</a>
+        </div>
     </div>
 </div>

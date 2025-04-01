@@ -21,18 +21,10 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
         {
             return _context.Workouts.Any(m => m.StartWorkout.Date == selectedDate.Date);
         }
-
-        public Workout GetWorkout(DateTime selectedDate)
-        {
-            var workout = _context.Workouts.FirstOrDefault(i => i.StartWorkout == selectedDate);
-            return workout;
-
-
-        }
-        public List<WorkoutExercise> GetExercises(int workoutId)
+        public List<WorkoutExercise> GetExercises(int workoutId, string userId)
         {
             return _context.WorkoutExercises
-                .Where(e => e.WorkoutId == workoutId)
+                .Where(e => e.WorkoutId == workoutId && e.UserId == userId)
                 .Select(e => new WorkoutExercise
                 {
                     Id = e.Id,
@@ -110,6 +102,7 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
         {
             exer.Workouts = _context.Workouts.Include(m => m.WorkoutExercises).FirstOrDefault(m => m.Id == exer.WorkoutId);
             exer.Exercise = _context.Exercises.Find(exer.ExerciseId);
+            exer.ApplicationUser = _context.ApplicationUsers.Find(exer.ApplicationUser);
             _context.WorkoutExercises.Add(exer);
             _context.SaveChanges();
             return exer.Id;
@@ -130,11 +123,11 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
             _context.SaveChanges();
 
         }
-        public IEnumerable<Workout> GetAllWorkouts(DateTime selectedDate)
+        public List<Workout> GetAllWorkouts(DateTime selectedDate, string userId)
         {
             return _context.Workouts
-                .Where(w => w.StartWorkout.Date == selectedDate.Date)
-                .ToList();
+                           .Where(w => w.StartWorkout.Date == selectedDate.Date && w.UserId == userId)
+                           .ToList();
         }
     }
 }

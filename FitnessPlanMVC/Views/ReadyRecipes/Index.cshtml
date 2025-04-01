@@ -51,7 +51,7 @@
 							}
 						</td>
 						<td>
-							<a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-black btn-sm">Preview</a>
+							<a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-black btn-sm">Details</a>
 							<form asp-action="DeleteConfirmed" asp-route-id="@recipe.Id" method="post" style="display:inline-block;">
 								@Html.AntiForgeryToken()
 								<button type="submit" class="btn btn-black btn-sm" onclick="return confirm('Are you sure you want to delete this recipe??');">Delet</button>

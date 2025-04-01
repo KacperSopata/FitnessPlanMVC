@@ -15,7 +15,6 @@ namespace FitnessPlanMVC.Domain.Model
         public int Goal { get; set; } // np. 100 przysiadów, 10000 kcal
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
         public List<UserChallenge> UserChallenges { get; set; } = new();
     }
 }

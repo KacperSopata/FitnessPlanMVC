@@ -32,5 +32,11 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
 
             return _context.Exercises.FirstOrDefault(e => e.Id == workoutExercise.ExerciseId);
         }
+        public void AddExercise(Exercise exercise)
+        {
+            _context.Exercises.Add(exercise);
+            _context.SaveChanges();
+        }
+
     }
 }

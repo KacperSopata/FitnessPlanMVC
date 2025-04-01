@@ -16,5 +16,7 @@ namespace FitnessPlanMVC.Domain.Model
         public int Sets { get; set; }
         public int Reps { get; set; }
         public float Weight { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FitnessPlanMVC.Application.Interfaces;
 using FitnessPlanMVC.Application.Services;
 using FitnessPlanMVC.Application.ViewModels.ReadyRecipes;
+using FitnessPlanMVC.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,18 +13,22 @@ namespace ApplicationForTraining.Controllers
     public class ReadyRecipesController : Controller
     {
         private readonly IReadyRecipesService _readyRecipesService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReadyRecipesController(IReadyRecipesService readyRecipesService)
+        public ReadyRecipesController(IReadyRecipesService readyRecipesService, UserManager<ApplicationUser> userManager)
         {
             _readyRecipesService = readyRecipesService;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public IActionResult Index(string searchString)
         {
             var model = _readyRecipesService.GetAllReadyRecipesForList(10, 1, searchString ?? string.Empty);
+            var userId = _userManager.GetUserId(User);
             var isAdmin = User.IsInRole("Admin");
             ViewBag.IsAdmin = isAdmin;
+            ViewBag.UserId = userId;
             return View(model);
         }
 
@@ -42,15 +47,19 @@ namespace ApplicationForTraining.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddReadyRecipes()
         {
             return View(new NewReadyRecipesVm());
         }
-        
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddReadyRecipes(NewReadyRecipesVm model)
         {
+            var userId = _userManager.GetUserId(User);
+            model.UserId = userId;
 
             if (model.ImageContent != null && model.ImageContent.Length > 0)
             {
@@ -70,6 +79,7 @@ namespace ApplicationForTraining.Controllers
             var model = _readyRecipesService.GetReadyRecipesDetail(id);
             return View(model);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Delete(int id)
         {

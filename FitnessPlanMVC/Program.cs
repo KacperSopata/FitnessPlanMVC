@@ -33,29 +33,33 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 
 });
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
-    {
-        IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
 
-        options.ClientId = googleAuthNSection["ClientId"];
-        options.ClientSecret = googleAuthNSection["ClientSecret"];
-    });
+builder.Services.AddAuthentication() /// Google Authnetication
+   .AddGoogle(options =>
+   {
+       IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
 
+       options.ClientId = googleAuthNSection["ClientId"];
+       options.ClientSecret = googleAuthNSection["ClientSecret"];
+   });
 
-builder.Services.AddAplication();
-builder.Services.AddInfrastructure();
+/// Registrations of Services and Repositories
+builder.Services.AddAplication(); // Services
+builder.Services.AddInfrastructure(); // Repositories
+
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();  // Strona do obs�ugi migracji w trybie developerskim
+    app.UseMigrationsEndPoint();
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");  // Strona obs�ugi b��d�w w trybie produkcyjnym
-    app.UseHsts();  // HTTP Strict Transport Security
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessPlanMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(FitnessPlanMVCDbContext))]
-    [Migration("20250327163333_Update12")]
-    partial class Update12
+    [Migration("20250401080939_Update333")]
+    partial class Update333
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,39 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Challenge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DurationInDays")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Goal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Challenges");
+                });
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Exercise", b =>
                 {
@@ -53,12 +86,79 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VideoUrl")
+                    b.HasKey("Id");
+
+                    b.ToTable("Exercises");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Meal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exercises");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.MealProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Grammage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("MealId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("MealProducts");
                 });
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Post", b =>
@@ -68,6 +168,9 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -81,9 +184,53 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<float>("Calories")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Carbohydrates")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Fat")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Protein")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.ReadyPlanWorkout", b =>
@@ -93,6 +240,9 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -114,10 +264,16 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("VideoUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("ReadyPlanWorkouts");
                 });
@@ -129,6 +285,9 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -150,9 +309,51 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("ReadyRecipes");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.UserChallenge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("UserChallenges");
                 });
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Workout", b =>
@@ -162,6 +363,10 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -173,7 +378,13 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                     b.Property<DateTime>("StartWorkout")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Workouts");
                 });
@@ -186,6 +397,9 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
@@ -195,6 +409,10 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                     b.Property<int>("Sets")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Weight")
                         .HasColumnType("real");
 
@@ -202,6 +420,8 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ExerciseId");
 
@@ -274,6 +494,11 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -325,6 +550,10 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -412,8 +641,130 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Weight")
+                        .HasColumnType("float");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Meal", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany("Meals")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.MealProduct", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany("MealProducts")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("FitnessPlanMVC.Domain.Model.Meal", "Meal")
+                        .WithMany("MealProducts")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FitnessPlanMVC.Domain.Model.Product", "Product")
+                        .WithMany("MealProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Meal");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Post", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Product", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.ReadyPlanWorkout", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.ReadyRecipes", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.UserChallenge", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", null)
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("FitnessPlanMVC.Domain.Model.Challenge", "Challenge")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Challenge");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Workout", b =>
+                {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.WorkoutExercise", b =>
                 {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany("WorkoutExercises")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("FitnessPlanMVC.Domain.Model.Exercise", "Exercise")
                         .WithMany("WorkoutExercise")
                         .HasForeignKey("ExerciseId")
@@ -425,6 +776,8 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Exercise");
 
@@ -482,13 +835,39 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Challenge", b =>
+                {
+                    b.Navigation("UserChallenges");
+                });
+
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Exercise", b =>
                 {
                     b.Navigation("WorkoutExercise");
                 });
 
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Meal", b =>
+                {
+                    b.Navigation("MealProducts");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Product", b =>
+                {
+                    b.Navigation("MealProducts");
+                });
+
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Workout", b =>
                 {
+                    b.Navigation("WorkoutExercises");
+                });
+
+            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.ApplicationUser", b =>
+                {
+                    b.Navigation("MealProducts");
+
+                    b.Navigation("Meals");
+
+                    b.Navigation("UserChallenges");
+
                     b.Navigation("WorkoutExercises");
                 });
 #pragma warning restore 612, 618

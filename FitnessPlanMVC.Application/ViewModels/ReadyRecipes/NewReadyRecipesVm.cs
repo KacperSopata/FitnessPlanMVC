@@ -16,10 +16,11 @@ namespace FitnessPlanMVC.Application.ViewModels.ReadyRecipes
         public string Content { get; set; }
         public byte[] Image { get; set; }
         public IFormFile ImageContent { get; set; }
-        public string IdentityUser { get; set; }
         public string Description { get; set; }
         public string Ingredients { get; set; }
         public string Instructions { get; set; }
+        public string UserId { get; set; }
+        public string ApplicationUser { get; set; }
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<FitnessPlanMVC.Domain.Model.ReadyRecipes, NewReadyRecipesVm>();

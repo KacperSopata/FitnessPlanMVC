@@ -9,12 +9,12 @@ namespace FitnessPlanMVC.Application.Interfaces
 {
     public interface IWorkoutService
     {
-        List<WorkoutDetailVm> GetWorkouts(DateTime selectedDate);
         void DeleteProduct(int id);
         int AddExerciseToWorkout(NewWorkoutExerciseVm exercise);
-        int AddWorkout(NewWorkoutVm product);
+        Task<int> AddWorkout(NewWorkoutVm product);
         void DeleteWorkout(int workoutid);
         NewWorkoutExerciseVm GetWorkoutExerciseById(int id);
+        List<WorkoutDetailVm> GetWorkouts(string userId, DateTime selectedDate);
         void UpdateExercise(NewWorkoutExerciseVm model);
 
     }

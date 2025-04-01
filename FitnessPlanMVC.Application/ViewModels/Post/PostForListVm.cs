@@ -14,6 +14,8 @@ namespace FitnessPlanMVC.Application.ViewModels.Post
         public string Title { get; set; }
         public string ShortContent { get; set; }
         public byte[] Image { get; set; }
+        public string UserId { get; set; }
+
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<FitnessPlanMVC.Domain.Model.Post, PostForListVm>();

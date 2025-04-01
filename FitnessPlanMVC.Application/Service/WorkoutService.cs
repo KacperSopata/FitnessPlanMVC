@@ -8,6 +8,7 @@ using FitnessPlanMVC.Application.Interfaces;
 using FitnessPlanMVC.Application.ViewModels.Workout;
 using FitnessPlanMVC.Domain.Interfaces;
 using FitnessPlanMVC.Domain.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace FitnessPlanMVC.Application.Service
 {
@@ -16,22 +17,27 @@ namespace FitnessPlanMVC.Application.Service
         private readonly IWorkoutRepository _workoutRepo;
         private readonly IExerciseRepository _exerciseRepo;
         private readonly IMapper _mapper;
-        public WorkoutService(IWorkoutRepository workoutRepo, IExerciseRepository exerciseRepo, IMapper mapper)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public WorkoutService(IWorkoutRepository workoutRepo, IExerciseRepository exerciseRepo, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _workoutRepo = workoutRepo;
             _exerciseRepo = exerciseRepo;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
-        public List<WorkoutDetailVm> GetWorkouts(DateTime selectedDate)
+        public List<WorkoutDetailVm> GetWorkouts(string userId, DateTime selectedDate)
         {
-            var workouts = _workoutRepo.GetAllWorkouts(selectedDate); // <- musi zwracać wszystkie treningi z danego dnia
+            // Pobieramy wszystkie treningi przypisane do danego użytkownika
+            var workouts = _workoutRepo.GetAllWorkouts(selectedDate, userId); // Zakładając, że GetAllWorkouts uwzględnia userId
             var workoutVms = new List<WorkoutDetailVm>();
 
             foreach (var workout in workouts)
             {
                 var workoutVm = _mapper.Map<WorkoutDetailVm>(workout);
-                var exercises = _workoutRepo.GetExercises(workout.Id);
+
+                // Pobieramy ćwiczenia powiązane z danym treningiem i użytkownikiem
+                var exercises = _workoutRepo.GetExercises(workout.Id, userId); // Uwzględniamy userId także tutaj
 
                 if (exercises != null && exercises.Any())
                 {
@@ -60,13 +66,19 @@ namespace FitnessPlanMVC.Application.Service
         }
 
 
-        public int AddWorkout(NewWorkoutVm product)
+        public async Task<int> AddWorkout(NewWorkoutVm product)
         {
             var prod = _mapper.Map<Workout>(product);
+            var user = await _userManager.FindByIdAsync(product.UserId);
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID.");
+            }
+            prod.ApplicationUser = user;
             var id = _workoutRepo.AddWorkout(prod);
             return id;
-        }
 
+        }
 
         public void DeleteWorkout(int workoutid)
         {
@@ -85,6 +97,5 @@ namespace FitnessPlanMVC.Application.Service
             var workoutexercise = _mapper.Map<WorkoutExercise>(model);
             _workoutRepo.UpdateProduct(workoutexercise);
         }
-
     }
 }

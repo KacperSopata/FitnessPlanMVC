@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FitnessPlanMVC.Application.Mapping;
+using FitnessPlanMVC.Domain.Model;
 
 namespace FitnessPlanMVC.Application.ViewModels.Workout
 {
@@ -15,7 +16,7 @@ namespace FitnessPlanMVC.Application.ViewModels.Workout
         public DateTime StartWorkout { get; set; }
         public List<ExerciseForListVm> Exercises { get; set; }
         public string? UserId { get; set; }
-
+        public ApplicationUser ApplicationUser { get; set; }
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<FitnessPlanMVC.Domain.Model.Workout, NewWorkoutVm>()

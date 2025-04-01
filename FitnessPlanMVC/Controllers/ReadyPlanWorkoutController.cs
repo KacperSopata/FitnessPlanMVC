@@ -1,5 +1,6 @@
 ﻿using FitnessPlanMVC.Application.Interfaces;
 using FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout;
+using FitnessPlanMVC.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,18 +11,22 @@ namespace FitnessPlanMVC.Controllers
     public class ReadyPlanWorkoutController : Controller
     {
         private readonly IReadyPlanWorkoutService _readyPlanWorkoutService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReadyPlanWorkoutController(IReadyPlanWorkoutService readyPlanWorkoutService)
+        public ReadyPlanWorkoutController(IReadyPlanWorkoutService readyPlanWorkoutService, UserManager<ApplicationUser> userManager)
         {
             _readyPlanWorkoutService = readyPlanWorkoutService;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public IActionResult Index(string searchString)
         {
             var model = _readyPlanWorkoutService.GetAllReadyPlanWorkoutsForList(10, 1, searchString ?? string.Empty);
+            var userId = _userManager.GetUserId(User);
             var isAdmin = User.IsInRole("Admin");
             ViewBag.IsAdmin = isAdmin;
+            ViewBag.UserId = userId;
             return View(model);
         }
 
@@ -51,6 +56,9 @@ namespace FitnessPlanMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPlanWorkout(NewReadyPlanWorkoutVm model)
         {
+            var userId = _userManager.GetUserId(User);
+            model.UserId = userId;
+
             if (ModelState.IsValid)
             {
                 _readyPlanWorkoutService.AddReadyPlanWorkout(model);
@@ -92,6 +100,9 @@ namespace FitnessPlanMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewReadyPlanWorkoutVm model)
         {
+            var userId = _userManager.GetUserId(User);
+            model.UserId = userId;
+
             if (ModelState.IsValid)
             {
                 _readyPlanWorkoutService.AddReadyPlanWorkout(model);

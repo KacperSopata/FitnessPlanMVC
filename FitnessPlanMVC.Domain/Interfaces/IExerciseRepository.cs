@@ -11,6 +11,7 @@ namespace FitnessPlanMVC.Domain.Interfaces
     {
         IQueryable<Exercise> GetAllExercises();
         Exercise GetDetail(int id);
+        void AddExercise(Exercise exercise);
         Exercise GetDetailByWorkoutExercise(int id);
     }
 }

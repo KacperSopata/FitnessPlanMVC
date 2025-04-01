@@ -1,32 +1,56 @@
 ﻿@model FitnessPlanMVC.Application.ViewModels.Exercise.ExerciseDetailVm
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Exercise Details";
     Layout = "_Layout";
 }
 
-<h2>Details</h2>
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-center">@Model.Name</h2>
 
-<div class="exercise-details">
-    <div>
-        <th>Name:</th>
-        @Html.DisplayFor(exercise => exercise.Name)
-    </div>
-    <div>
-        <th>Description:</th>
-        @Html.DisplayFor(model => model.Description, new { @class = "form-control", rows = 4 })
-    </div>
-    <div>
-        <th>Instruction:</th>
-        @Html.DisplayFor(exercise => exercise.Instruction, new { @class = "form-control", rows = 4 })
-    </div>
-    <div>
-        <th><strong>Parties involved:</strong></th>
-        @Html.DisplayFor(exercise => exercise.InvolvedParties, new { @class = "form-control", rows = 4 })
-    </div>
-    <div>
-        <th>Tips:</th>
-        @Html.DisplayFor(model => model.Tips, new { @class = "form-control", rows = 4 })
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Description:</strong></h5>
+                <p>@Model.Description</p>
+            </div>
+        </div>
 
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Instruction:</strong></h5>
+                <p>@Model.Instruction</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Tips:</strong></h5>
+                <p>@Model.Tips</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <h5><strong>Parties involved:</strong></h5>
+                <p>@Model.InvolvedParties</p>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.VideoUrl))
+        {
+            <div class="row mb-3">
+                <div class="col">
+                    <h5><strong>Video:</strong></h5>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="@Model.VideoUrl" title="Exercise Video" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="text-center mt-4">
+            <a asp-action="Index" class="btn btn-secondary">Back to list</a>
+        </div>
     </div>
 </div>

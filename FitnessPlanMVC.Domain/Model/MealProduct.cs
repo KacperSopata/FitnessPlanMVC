@@ -14,6 +14,8 @@ namespace FitnessPlanMVC.Domain.Model
         public int ProductsId { get; set; }
         public Product Product { get; set; }
         public int Grammage { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

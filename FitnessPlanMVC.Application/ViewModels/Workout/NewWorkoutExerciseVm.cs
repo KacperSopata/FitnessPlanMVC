@@ -17,6 +17,8 @@ namespace FitnessPlanMVC.Application.ViewModels.Workout
         public int Sets { get; set; }
         public int Reps { get; set; }
         public float Weight { get; set; }
+        public string ApplicationUser { get; set; }
+        public string UserId { get; set; }
         public List<Exercise.ExerciseForListVm> Exercises { get; set; }
         public void ConfigureMapping(Profile profile)
         {

@@ -1,29 +1,24 @@
-﻿﻿@{
-    ViewBag.Title = "Recipe details";
-    Layout = "_Layout";
-}
+﻿@model FitnessPlanMVC.Application.ViewModels.ReadyRecipes.ReadyRecipesDetailVm
 
-<div class="recipe-details">
-    <div>
-        @if (Model.Image != null && Model.Image.Length > 0)
-        {
-            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))"
-                 alt="Image"
-                 style="display: block; margin: 50px auto 0 auto; max-width: 400px; height: auto;" />
-        }
-    </div>
-    <div>
-        <h2>@Model.Title</h2>
-    </div>
-    <div>
+<div class="recipe-detail-card">
+    <h2>@Model.Title</h2>
+
+    @if (Model.Image != null)
+    {
+        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" alt="Recipe Image" class="recipe-image" />
+    }
+
+    <div class="recipe-section">
         <h4>Description:</h4>
         <p>@Model.Description</p>
     </div>
-    <div>
+
+    <div class="recipe-section">
         <h4>Ingredients:</h4>
         <p>@Model.Ingredients</p>
     </div>
-    <div>
+
+    <div class="recipe-section">
         <h4>Instructions:</h4>
         <p>@Model.Instructions</p>
     </div>

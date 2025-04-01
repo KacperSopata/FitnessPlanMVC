@@ -5,18 +5,10 @@
 namespace FitnessPlanMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Update12 : Migration
+    public partial class Update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Workouts");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
                 name: "UserId",
@@ -24,6 +16,14 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "UserId",
+                table: "Workouts");
         }
     }
 }

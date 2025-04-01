@@ -14,6 +14,8 @@ namespace FitnessPlanMVC.Application.ViewModels.ReadyRecipes
         public string Title { get; set; }
         public byte[] Image { get; set; }
         public string Description { get; set; }
+        public string UserId { get; set; }
+
 
         public void ConfigureMapping(Profile profile)
         {
