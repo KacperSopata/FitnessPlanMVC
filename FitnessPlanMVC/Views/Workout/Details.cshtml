@@ -37,18 +37,6 @@
             </div>
         </div>
 
-        @if (!string.IsNullOrEmpty(Model.VideoUrl))
-        {
-            <div class="row mb-3">
-                <div class="col">
-                    <h5><strong>Video:</strong></h5>
-                    <div class="ratio ratio-16x9">
-                        <iframe src="@Model.VideoUrl" title="Exercise Video" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        }
-
         <div class="text-center mt-4">
             <a asp-action="Index" class="btn btn-secondary">Back to list</a>
         </div>

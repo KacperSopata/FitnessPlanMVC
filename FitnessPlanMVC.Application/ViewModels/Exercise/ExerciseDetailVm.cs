@@ -16,7 +16,6 @@ namespace FitnessPlanMVC.Application.ViewModels.Exercise
         public string Instruction { get; set; }
         public string Tips { get; set; }
         public string InvolvedParties { get; set; }
-        public string? VideoUrl { get; set; }
 
         public void ConfigureMapping(Profile profile)
         {

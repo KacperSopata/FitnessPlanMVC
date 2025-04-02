@@ -42,13 +42,6 @@
         <textarea asp-for="PlanDetails" class="form-control" placeholder="Detailed information about the plan..."></textarea>
         <span asp-validation-for="PlanDetails" class="text-danger"></span>
     </div>
-
-    <div class="form-group">
-        <label asp-for="VideoUrl"></label>
-        <input asp-for="VideoUrl" class="form-control" placeholder="Link to the video (optional)..." />
-        <span asp-validation-for="VideoUrl" class="text-danger"></span>
-    </div>
-
     <button type="submit" class="btn btn-primary">Add Plan</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

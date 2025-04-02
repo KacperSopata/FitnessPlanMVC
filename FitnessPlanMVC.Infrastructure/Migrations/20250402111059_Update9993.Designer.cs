@@ -4,6 +4,7 @@ using FitnessPlanMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessPlanMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(FitnessPlanMVCDbContext))]
-    partial class FitnessPlanMVCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402111059_Update9993")]
+    partial class Update9993
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,38 +89,6 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exercises");
-                });
-
-            modelBuilder.Entity("FitnessPlanMVC.Domain.Model.FitnessPlanMVC.Domain.Model.ChallengeProgress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChallengeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CompletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Progress")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ProgressDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ChallengeProgresses");
                 });
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Meal", b =>
@@ -362,9 +333,6 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
 
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DurationInDays")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");

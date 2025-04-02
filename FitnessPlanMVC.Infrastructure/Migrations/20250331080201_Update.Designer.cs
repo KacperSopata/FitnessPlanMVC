@@ -86,8 +86,7 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VideoUrl")
-                        .HasColumnType("nvarchar(max)");
+                  
 
                     b.HasKey("Id");
 
@@ -271,8 +270,7 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("VideoUrl")
-                        .HasColumnType("nvarchar(max)");
+                  
 
                     b.HasKey("Id");
 

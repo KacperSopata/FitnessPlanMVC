@@ -78,9 +78,16 @@ namespace FitnessPlanMVC.Application.Service
 
         public PostDetailVm GetPostDetail(int id)
         {
-            var post = _postRepo.GetDetail(id);
-            var postVm = _mapper.Map<PostDetailVm>(post);
-            return postVm;
+            var post = _postRepo.GetDetail(id); // Zmieniono z _context.Posts na _postRepo.GetDetail
+
+            if (post == null)
+            {
+                return null; // Możesz zwrócić null, jeśli post nie istnieje
+            }
+
+            return _mapper.Map<PostDetailVm>(post); // Mapowanie do ViewModelu
         }
+
+
     }
 }

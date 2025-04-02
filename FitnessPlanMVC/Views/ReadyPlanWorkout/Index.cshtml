@@ -1,81 +1,41 @@
 ﻿@model FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout.ListReadyPlanWorkoutVm
-
 @{
     ViewBag.Title = "List of Training Plans";
-    Layout = "_Layout";
 }
 
-<div class="container">
-    <h1 class="page-title">Select Training Type and Experience Level</h1>
+<h1 class="page-title text-center">Select Training Type and Experience Leve</h1>
 
-    <div class="form-group">
-        <label for="planType">Training type:</label>
-        <select id="planType" class="form-control">
-            <option value="">Select training type.</option>
-            <option value="Cardio">Cardio</option>
-            <option value="Pull">Pull</option>
-            <option value="Push">Push</option>
-            <option value="Legs">Legs</option>
-        </select>
-    </div>
-
-    <div id="difficultyDiv" class="form-group" style="display: none;">
-        <label for="difficulty">Level of Advancement:</label>
-        <select id="difficulty" class="form-control">
-            <option value="">Select difficulty level.</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
-        </select>
-    </div>
-
-    <button id="searchButton" class="btn btn-primary" style="display: none;">Search</button>
-
-    @if (Model.ReadyPlanWorkouts.Any())
-    {
-        <h2 class="mt-5">All Available Workout Plans:</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Difficulty</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var plan in Model.ReadyPlanWorkouts)
-                {
-                    <tr>
-                        <td>@plan.Name</td>
-                        <td>@plan.PlanType</td>
-                        <td>@plan.Difficulty</td>
-                        <td>@plan.Description</td>
-                        <td>
-                            <a asp-action="Details" asp-route-id="@plan.Id" class="btn btn-info btn-sm">Details</a>
-                            <form asp-action="Delete" asp-route-id="@plan.Id" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <div class="no-plans-message text-center">
-            <p>No plans available.</p>
-        </div>
-
-    }
+<!-- Dropdown for training type -->
+<div class="form-group">
+    <label for="planType">Training type:</label>
+    <select id="planType" class="form-control">
+        <option value="">Select training type.</option>
+        <option value="Cardio">Cardio</option>
+        <option value="Pull">Pull</option>
+        <option value="Push">Push</option>
+        <option value="Legs">Legs</option>
+    </select>
 </div>
+
+<!-- Dropdown for difficulty level, initially hidden -->
+<div id="difficultyDiv" class="form-group" style="display: none;">
+    <label for="difficulty">Level of Advancement:</label>
+    <select id="difficulty" class="form-control">
+        <option value="">Select difficulty level.</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+    </select>
+</div>
+
+<!-- Search button, initially hidden -->
+<button id="searchButton" class="btn btn-primary" style="display: none;">Search</button>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Show difficulty level dropdown when a training type is selected
             $('#planType').on('change', function () {
                 var selectedPlanType = $(this).val();
                 if (selectedPlanType) {
@@ -86,6 +46,7 @@
                 }
             });
 
+            // Show search button when difficulty is selected
             $('#difficulty').on('change', function () {
                 var selectedDifficulty = $(this).val();
                 if (selectedDifficulty) {
@@ -95,11 +56,15 @@
                 }
             });
 
+            // Trigger search action on button click
             $('#searchButton').on('click', function () {
                 var planType = $('#planType').val();
                 var difficulty = $('#difficulty').val();
                 if (planType && difficulty) {
+                    // Redirect to the search results page with selected parameters
                     window.location.href = '@Url.Action("GetPlansByTypeAndDifficulty", "ReadyPlanWorkout")?type=' + planType + '&difficulty=' + difficulty;
+                } else {
+                    alert("Please select both training type and difficulty level.");
                 }
             });
         });

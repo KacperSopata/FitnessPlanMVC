@@ -29,7 +29,6 @@ namespace FitnessPlanMVC.Application.Services
                 Difficulty = model.Difficulty,
                 Description = model.Description,
                 PlanDetails = model.PlanDetails,
-                VideoUrl = model.VideoUrl
             };
 
             _readyPlanWorkoutRepository.AddReadyPlanWorkout(newPlan);

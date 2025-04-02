@@ -14,5 +14,7 @@ namespace FitnessPlanMVC.Application.ViewModels.Challenge
         public bool IsCompleted { get; set; }
         public int Goal { get; set; } // <- Dodajesz do modelu
         public DateTime? CompletionDate { get; set; }
+        public DateTime? EndDate { get; set; } // Nowa właściwość na datę
+        public int DurationInDays { get; set; }
     }
 }

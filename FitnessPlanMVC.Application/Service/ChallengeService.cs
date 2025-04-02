@@ -80,12 +80,15 @@ namespace FitnessPlanMVC.Application.Service
             return userChallenges.Select(uc => new UserChallengeVm
             {
                 ChallengeId = uc.ChallengeId,
-                ChallengeName = uc.Challenge?.Name ?? "",
+                ChallengeName = uc.Challenge?.Name ?? "",  // Nazwa wyzwania
                 Progress = uc.Progress,
                 IsCompleted = uc.IsCompleted,
-                CompletionDate = uc.CompletionDate
+                CompletionDate = uc.CompletionDate,
+                EndDate = uc.Challenge?.EndDate, // Dodajemy datę zakończenia wyzwania
+                DurationInDays = uc.Challenge?.DurationInDays ?? 0  // Ustawienie DurationInDays z wyzwania
             }).ToList();
         }
+
         public void UpdateUserProgress(int challengeId, string userId, int progressToAdd)
         {
             var userChallenges = _userChallengeRepository.GetByUserId(userId);

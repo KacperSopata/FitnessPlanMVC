@@ -27,6 +27,7 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
             _context.Posts.Remove(post);
             _context.SaveChanges();
         }
+
         public IQueryable<Post> GetAllPost()
         {
             var posts = _context.Posts.AsQueryable();
@@ -34,7 +35,9 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
         }
         public Post GetDetail(int id)
         {
-            return _context.Posts.FirstOrDefault(e => e.Id == id);
+            return _context.Posts
+                .FirstOrDefault(p => p.Id == id); // Pobranie posta na podstawie Id
         }
+
     }
 }

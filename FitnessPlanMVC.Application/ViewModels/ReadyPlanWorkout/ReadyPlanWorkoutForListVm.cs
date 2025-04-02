@@ -16,7 +16,6 @@ namespace FitnessPlanMVC.Application.ViewModels.ReadyPlanWorkout
         public string Difficulty { get; set; }
         public string PlanType { get; set; }
         public string PlanDetails { get; set; }
-        public string VideoUrl { get; set; }
         public void ConfigureMapping(Profile profile)
         {
             profile.CreateMap<FitnessPlanMVC.Domain.Model.ReadyPlanWorkout, ReadyPlanWorkoutForListVm>();

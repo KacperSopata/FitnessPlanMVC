@@ -16,5 +16,6 @@ namespace FitnessPlanMVC.Domain.Model
         public int Progress { get; set; } // np. ile przysiadów/kcal wykonano
         public bool IsCompleted { get; set; }
         public DateTime? CompletionDate { get; set; }
+        public int DurationInDays { get; set; }  // Dodajemy właściwość DurationInDays
     }
 }

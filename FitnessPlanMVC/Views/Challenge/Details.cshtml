@@ -5,14 +5,26 @@
     Layout = "_Layout";
 }
 
-<h2>@Model.Name</h2>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">@Model.Name</h2>
 
-<p><strong>Description:</strong> @Model.Description</p>
-<p><strong>Duration:</strong> @Model.DurationInDays days</p>
-<p><strong>Start Date:</strong> @Model.StartDate.ToShortDateString()</p>
-<p><strong>End Date:</strong> @Model.EndDate.ToShortDateString()</p>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Duration:</strong> @Model.DurationInDays days</p>
+            <p><strong>Start Date:</strong> @Model.StartDate.ToShortDateString()</p>
+            <p><strong>End Date:</strong> @Model.EndDate.ToShortDateString()</p>
 
-<form asp-action="Join" method="post">
-    <input type="hidden" name="challengeId" value="@Model.Id" />
-    <button type="submit" class="btn btn-primary">Join Challenge</button>
-</form>
+            <div class="text-center">
+                <form asp-action="Join" method="post">
+                    <input type="hidden" name="challengeId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">Join Challenge</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Challenge")" class="btn btn-secondary">Back to Challenges</a>
+    </div>
+</div>

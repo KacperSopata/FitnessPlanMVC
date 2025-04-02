@@ -24,6 +24,7 @@ namespace FitnessPlanMVC.Infrastructure
             services.AddTransient<IUserMealRepository, UserMealRepository>();
             services.AddTransient<IUserChallengeRepository, UserChallengeRepository>();
             services.AddTransient<IChallengeRepository, ChallengeRepository>();
+            //services.AddTransient<IChallengeProgressRepository, ChallengeProgressRepository>();
             return services;
         }
     }

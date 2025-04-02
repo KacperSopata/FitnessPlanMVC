@@ -33,7 +33,6 @@ namespace FitnessPlanMVC.Tests
                 Difficulty = "Medium",
                 Description = "Some desc",
                 PlanDetails = "Steps",
-                VideoUrl = "http://url.com"
             };
 
             var plan = new ReadyPlanWorkout { Id = 10 };

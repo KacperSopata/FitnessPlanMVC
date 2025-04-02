@@ -54,8 +54,9 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
         public IQueryable<ReadyPlanWorkout> GetPlansByTypeAndDifficulty(string type, string difficulty)
         {
             return _context.ReadyPlanWorkouts
-                                   .Where(plan => plan.PlanType == type && plan.Difficulty == difficulty)
-                                   .AsQueryable();
+                           .Where(plan => plan.PlanType == type && plan.Difficulty == difficulty)
+                           .AsQueryable();
         }
+
     }
 }

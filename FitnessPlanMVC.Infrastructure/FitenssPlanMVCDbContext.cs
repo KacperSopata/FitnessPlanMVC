@@ -24,7 +24,7 @@ namespace FitnessPlanMVC.Infrastructure
         public DbSet<MealProduct> MealProducts { get; set; }
         public DbSet<UserChallenge> UserChallenges { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
+        //public DbSet<ChallengeProgress> ChallengeProgresses { get; set; } 
         public DbSet<Challenge> Challenges { get; set; }
 
         public FitnessPlanMVCDbContext(DbContextOptions options) : base(options)

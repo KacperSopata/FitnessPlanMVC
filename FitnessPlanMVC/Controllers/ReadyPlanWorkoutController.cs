@@ -4,6 +4,7 @@ using FitnessPlanMVC.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace FitnessPlanMVC.Controllers
@@ -71,9 +72,14 @@ namespace FitnessPlanMVC.Controllers
         [HttpGet]
         public IActionResult GetPlansByTypeAndDifficulty(string type, string difficulty)
         {
+            // Debugging: sprawdź, czy parametry są poprawnie odbierane
+            Console.WriteLine($"Received Type: {type}, Difficulty: {difficulty}");
+
             var results = _readyPlanWorkoutService.GetPlansByTypeAndDifficulty2(type, difficulty);
             return View(results);
         }
+
+
 
         [HttpGet]
         public IActionResult GetPlansByType(string type)
