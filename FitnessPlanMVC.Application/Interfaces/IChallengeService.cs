@@ -19,5 +19,8 @@ namespace FitnessPlanMVC.Application.Interfaces
         bool IsUserEnrolled(string userId, int challengeId);
         List<UserChallengeVm> GetUserChallenges(string userId);
         void UpdateUserProgress(int challengeId, string userId, int progressToAdd);
+        bool CanAddProgressToday(int challengeId, string userId);
+
+
     }
 }

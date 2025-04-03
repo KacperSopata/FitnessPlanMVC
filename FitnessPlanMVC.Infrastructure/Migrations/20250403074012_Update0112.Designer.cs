@@ -4,6 +4,7 @@ using FitnessPlanMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessPlanMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(FitnessPlanMVCDbContext))]
-    partial class FitnessPlanMVCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403074012_Update0112")]
+    partial class Update0112
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

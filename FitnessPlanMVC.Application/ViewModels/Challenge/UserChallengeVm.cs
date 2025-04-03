@@ -12,9 +12,12 @@ namespace FitnessPlanMVC.Application.ViewModels.Challenge
         public string ChallengeName { get; set; }
         public int Progress { get; set; }
         public bool IsCompleted { get; set; }
-        public int Goal { get; set; } // <- Dodajesz do modelu
         public DateTime? CompletionDate { get; set; }
         public DateTime? EndDate { get; set; } // Nowa właściwość na datę
         public int DurationInDays { get; set; }
+        public bool CanAddProgressToday { get; set; }
+        public DateTime? LastProgressDate { get; set; }
+        public TimeSpan? TimeUntilNextAvailable { get; set; }
+
     }
 }

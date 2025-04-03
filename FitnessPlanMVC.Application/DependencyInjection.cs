@@ -26,7 +26,6 @@ namespace FitnessPlanMVC.Application
             services.AddTransient<IStandardMealService, StandardMealService>();
             services.AddTransient<IUserMealService, UserMealService>();
             services.AddTransient<IChallengeService, ChallengeService>();
-            //services.AddTransient<IChallengeProgressService, ChallengeProgressService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

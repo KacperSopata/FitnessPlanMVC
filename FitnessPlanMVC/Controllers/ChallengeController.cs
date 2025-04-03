@@ -11,14 +11,12 @@ namespace FitnessPlanMVC.Controllers
     public class ChallengeController : Controller
     {
         private readonly IChallengeService _challengeService;
-        //private readonly IChallengeProgressService _challengeProgressService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ChallengeController(IChallengeService challengeService, UserManager<ApplicationUser> userManager /*IChallengeProgressService challengeProgressService*/)
+        public ChallengeController(IChallengeService challengeService, UserManager<ApplicationUser> userManager)
         {
             _challengeService = challengeService;
             _userManager = userManager;
-            //_challengeProgressService = challengeProgressService;
         }
 
         public IActionResult Index()
@@ -26,30 +24,6 @@ namespace FitnessPlanMVC.Controllers
             var model = _challengeService.GetAllChallenges();
             return View(model);
         }
-
-        //[HttpPost]
-        //public IActionResult AddProgress(int challengeId)
-        //{
-        //    var userId = _userManager.GetUserId(User); // Pobranie ID użytkownika
-
-        //    try
-        //    {
-        //        // Debugowanie: Sprawdzamy, czy postęp jest dodawany
-        //        Console.WriteLine($"UserId: {userId}, ChallengeId: {challengeId}");
-
-        //        _challengeProgressService.AddProgress(challengeId, userId); // Wywołanie metody serwisu
-        //        TempData["SuccessMessage"] = "Progress updated successfully!";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Zgłaszanie błędu, jeśli coś poszło nie tak
-        //        TempData["ErrorMessage"] = ex.Message;
-        //    }
-
-        //    // Po dodaniu postępu przekierowanie do widoku "MyChallenges"
-        //    return RedirectToAction("MyChallenges");
-        //}
-
 
         [HttpGet]
         public IActionResult Add()
@@ -118,23 +92,27 @@ namespace FitnessPlanMVC.Controllers
         public async Task<IActionResult> MyChallenges()
         {
             var userId = _userManager.GetUserId(User);
-            var challenges = _challengeService.GetUserChallenges(userId); // Pobierz dane o wyzwaniach dla danego użytkownika
+            var challenges = _challengeService.GetUserChallenges(userId);
             return View(challenges);
         }
-
 
         [HttpPost]
         public IActionResult MarkProgress(int challengeId, int progressToAdd = 1)
         {
             var userId = _userManager.GetUserId(User);
 
-            // Sprawdzamy, czy progres jest aktualizowany poprawnie
+            if (!_challengeService.CanAddProgressToday(challengeId, userId))
+            {
+                TempData["ErrorMessage"] = "❌ Już dziś dodałeś progres do tego wyzwania.";
+                var model = _challengeService.GetUserChallenges(userId);
+                return View("MyChallenges", model);
+            }
+
             _challengeService.UpdateUserProgress(challengeId, userId, progressToAdd);
+            TempData["SuccessMessage"] = "✅ Progres dodany pomyślnie!";
 
-            // Po zaktualizowaniu progresu, pobierzmy najnowsze dane o wyzwaniach i przekazujmy je do widoku
-            var model = _challengeService.GetUserChallenges(userId);
-            return View("MyChallenges", model);  // Przekazujemy model zaktualizowany do widoku
+            var updatedModel = _challengeService.GetUserChallenges(userId);
+            return View("MyChallenges", updatedModel);
         }
-
     }
 }

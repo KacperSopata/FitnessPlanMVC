@@ -4,6 +4,7 @@ using FitnessPlanMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessPlanMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(FitnessPlanMVCDbContext))]
-    partial class FitnessPlanMVCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403070726_Update33")]
+    partial class Update33
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +42,9 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Goal")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -319,11 +325,17 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DurationInDays")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
@@ -336,13 +348,13 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChallengeId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ChallengeId");
 
                     b.ToTable("UserChallenges");
                 });
@@ -726,21 +738,17 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.UserChallenge", b =>
                 {
+                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", null)
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("FitnessPlanMVC.Domain.Model.Challenge", "Challenge")
                         .WithMany("UserChallenges")
                         .HasForeignKey("ChallengeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FitnessPlanMVC.Domain.Model.ApplicationUser", "User")
-                        .WithMany("UserChallenges")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Challenge");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FitnessPlanMVC.Domain.Model.Workout", b =>

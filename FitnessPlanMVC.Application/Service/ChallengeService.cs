@@ -63,7 +63,8 @@ namespace FitnessPlanMVC.Application.Service
                     UserId = userId,
                     Progress = 0,
                     IsCompleted = false,
-                    CompletionDate = null
+                    CompletionDate = null,
+                    LastProgressDate = null
                 };
                 _userChallengeRepository.AssignUserToChallenge(userChallenge);
             }
@@ -77,40 +78,74 @@ namespace FitnessPlanMVC.Application.Service
         public List<UserChallengeVm> GetUserChallenges(string userId)
         {
             var userChallenges = _userChallengeRepository.GetByUserId(userId);
-            return userChallenges.Select(uc => new UserChallengeVm
+            return userChallenges.Select(uc =>
             {
-                ChallengeId = uc.ChallengeId,
-                ChallengeName = uc.Challenge?.Name ?? "",  // Nazwa wyzwania
-                Progress = uc.Progress,
-                IsCompleted = uc.IsCompleted,
-                CompletionDate = uc.CompletionDate,
-                EndDate = uc.Challenge?.EndDate, // Dodajemy datę zakończenia wyzwania
-                DurationInDays = uc.Challenge?.DurationInDays ?? 0  // Ustawienie DurationInDays z wyzwania
+                bool canAdd = !uc.IsCompleted &&
+                              (!uc.LastProgressDate.HasValue ||
+                              (DateTime.Now - uc.LastProgressDate.Value).TotalHours >= 24);
+
+                TimeSpan? timeLeft = uc.LastProgressDate.HasValue
+                    ? uc.LastProgressDate.Value.AddHours(24) - DateTime.Now
+                    : null;
+
+                return new UserChallengeVm
+                {
+                    ChallengeId = uc.ChallengeId,
+                    ChallengeName = uc.Challenge?.Name ?? "",
+                    Progress = uc.Progress,
+                    IsCompleted = uc.IsCompleted,
+                    CompletionDate = uc.CompletionDate,
+                    EndDate = uc.Challenge?.EndDate,
+                    DurationInDays = uc.Challenge?.DurationInDays ?? 0,
+                    LastProgressDate = uc.LastProgressDate,
+                    CanAddProgressToday = canAdd,
+                    TimeUntilNextAvailable = timeLeft
+                };
             }).ToList();
         }
 
+
         public void UpdateUserProgress(int challengeId, string userId, int progressToAdd)
         {
-            var userChallenges = _userChallengeRepository.GetByUserId(userId);
-            var userChallenge = userChallenges.FirstOrDefault(c => c.ChallengeId == challengeId);
+            var userChallenge = _userChallengeRepository.GetByChallengeAndUser(challengeId, userId);
+            if (userChallenge == null || userChallenge.IsCompleted)
+                return;
 
-            if (userChallenge != null && !userChallenge.IsCompleted)
+            if (userChallenge.LastProgressDate.HasValue &&
+                (DateTime.Now - userChallenge.LastProgressDate.Value).TotalHours < 24)
             {
-                userChallenge.Progress += progressToAdd;
-
-                if (userChallenge.Progress >= userChallenge.Challenge.Goal)
-                {
-                    userChallenge.IsCompleted = true;
-                    userChallenge.CompletionDate = DateTime.Now;
-                }
-
-                _userChallengeRepository.UpdateProgress(userChallenge.Id, userChallenge.Progress);
-                if (userChallenge.IsCompleted)
-                {
-                    _userChallengeRepository.MarkAsCompleted(userChallenge.Id);
-                }
+                return;
             }
+
+            userChallenge.Progress = Math.Min(
+                userChallenge.Progress + progressToAdd,
+                userChallenge.Challenge.DurationInDays
+            );
+
+            userChallenge.LastProgressDate = DateTime.Now;
+
+            if (userChallenge.Progress >= userChallenge.Challenge.DurationInDays)
+            {
+                userChallenge.IsCompleted = true;
+                userChallenge.CompletionDate = DateTime.Now;
+                _userChallengeRepository.MarkAsCompleted(userChallenge.Id);
+            }
+
+            _userChallengeRepository.UpdateProgressWithDate(
+                userChallenge.Id,
+                userChallenge.Progress,
+                userChallenge.LastProgressDate.Value
+            );
         }
 
+        public bool CanAddProgressToday(int challengeId, string userId)
+        {
+            var userChallenge = _userChallengeRepository.GetByChallengeAndUser(challengeId, userId);
+            if (userChallenge == null || userChallenge.IsCompleted)
+                return false;
+
+            return userChallenge.LastProgressDate == null ||
+                   (DateTime.Now - userChallenge.LastProgressDate.Value).TotalHours >= 24;
+        }
     }
 }

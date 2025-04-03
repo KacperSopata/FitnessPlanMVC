@@ -15,7 +15,6 @@ namespace FitnessPlanMVC.Application.ViewModels.Challenge
         public string Name { get; set; }
         public string Description { get; set; }
         public int DurationInDays { get; set; }
-        public int Goal { get; set; }
         public DateTime StartDate { get; set; }
 
         public void ConfigureMapping(Profile profile)

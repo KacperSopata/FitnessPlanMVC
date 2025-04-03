@@ -1,6 +1,7 @@
 ﻿using FitnessPlanMVC.Domain.Interfaces;
 using FitnessPlanMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,13 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
                 .FirstOrDefault(uc => uc.Id == id);
         }
 
+        public UserChallenge GetByChallengeAndUser(int challengeId, string userId)
+        {
+            return _context.UserChallenges
+                .Include(x => x.Challenge)
+                .FirstOrDefault(x => x.ChallengeId == challengeId && x.UserId == userId);
+        }
+
         public int AssignUserToChallenge(UserChallenge userChallenge)
         {
             _context.UserChallenges.Add(userChallenge);
@@ -43,6 +51,17 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
             if (entity != null)
             {
                 entity.Progress = progress;
+                _context.SaveChanges();
+            }
+        }
+
+        public void UpdateProgressWithDate(int userChallengeId, int progress, DateTime lastProgressDate)
+        {
+            var entity = _context.UserChallenges.FirstOrDefault(x => x.Id == userChallengeId);
+            if (entity != null)
+            {
+                entity.Progress = progress;
+                entity.LastProgressDate = lastProgressDate;
                 _context.SaveChanges();
             }
         }

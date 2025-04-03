@@ -5,8 +5,16 @@
     Layout = "_Layout";
 }
 
-
 <h2 class="mb-4">My Challenges</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
 @if (!Model.Any())
 {
@@ -16,28 +24,61 @@
 }
 else
 {
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped align-middle">
         <thead class="table-dark">
             <tr>
                 <th>Challenge</th>
                 <th>Progress</th>
                 <th>Completed</th>
                 <th>Completion Date</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var challenge in Model)
             {
+                var percentage = (int)((double)challenge.Progress / challenge.DurationInDays * 100);
+
                 <tr>
                     <td>@challenge.ChallengeName</td>
                     <td>
-                        @challenge.Progress
+                        <div class="mb-1">@challenge.Progress / @challenge.DurationInDays days (@percentage%)</div>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar @(percentage == 100 ? "bg-success" : "bg-info")"
+                                 role="progressbar"
+                                 style="width: @percentage%"
+                                 aria-valuenow="@percentage"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                @percentage%
+                            </div>
+                        </div>
                     </td>
                     <td>@(challenge.IsCompleted ? "Yes" : "No")</td>
                     <td>@(challenge.CompletionDate?.ToShortDateString() ?? "-")</td>
                     <td>
-                        @if (!challenge.IsCompleted)
+                        @if (challenge.IsCompleted)
+                        {
+                            <span class="text-muted">🏁 Challenge completed</span>
+                        }
+                        else if (challenge.CanAddProgressToday)
+                        {
+                            <span class="text-success">✅ You can add progress now</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">
+                                ⏳ Wait: @(
+                            challenge.TimeUntilNextAvailable.HasValue
+                            ? challenge.TimeUntilNextAvailable.Value.ToString(@"hh\:mm\:ss")
+                            : "-"
+                            )
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (!challenge.IsCompleted && challenge.CanAddProgressToday)
                         {
                             <form asp-action="MarkProgress" asp-controller="Challenge" method="post" class="d-inline">
                                 <input type="hidden" name="challengeId" value="@challenge.ChallengeId" />
@@ -46,7 +87,7 @@ else
                         }
                         else
                         {
-                            <span class="text-muted">Completed</span>
+                            <span class="text-muted">–</span>
                         }
                     </td>
                 </tr>

@@ -15,5 +15,7 @@ namespace FitnessPlanMVC.Domain.Interfaces
         void UpdateProgress(int userChallengeId, int progress);
         void MarkAsCompleted(int userChallengeId);
         bool IsUserEnrolled(string userId, int challengeId);
+        UserChallenge GetByChallengeAndUser(int challengeId, string userId);
+        void UpdateProgressWithDate(int userChallengeId, int progress, DateTime lastProgressDate);
     }
 }
