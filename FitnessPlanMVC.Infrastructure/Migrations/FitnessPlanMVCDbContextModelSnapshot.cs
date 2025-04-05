@@ -131,13 +131,7 @@ namespace FitnessPlanMVC.Infrastructure.Migrations
                     b.Property<int>("MealId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MealsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")

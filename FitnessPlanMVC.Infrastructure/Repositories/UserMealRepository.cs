@@ -22,7 +22,7 @@ public class UserMealRepository : IUserMealRepository
     public List<Product> GetProduct(int mealId, string userId)
     {
         return _context.MealProducts
-            .Where(e => e.MealsId == mealId)
+            .Where(e => e.MealId == mealId)
             .Include(e => e.Product)
             .Select(e => e.Product)
             .ToList();
@@ -30,7 +30,7 @@ public class UserMealRepository : IUserMealRepository
     public int GetGrammageForProduct(int productId, int mealId)
     {
         return _context.MealProducts
-            .Where(mealProduct => mealProduct.ProductsId == productId && mealProduct.MealsId == mealId)
+            .Where(mealProduct => mealProduct.ProductId == productId && mealProduct.MealId == mealId)
             .Select(mealProduct => mealProduct.Grammage)
             .FirstOrDefault();
     }
@@ -43,7 +43,7 @@ public class UserMealRepository : IUserMealRepository
     }
     public void DeleteMeal(int mealid)
     {
-        var mealProducts = _context.MealProducts.Where(mp => mp.MealsId == mealid).ToList();
+        var mealProducts = _context.MealProducts.Where(mp => mp.MealId == mealid).ToList();
         if (mealProducts.Any())
         {
             _context.MealProducts.RemoveRange(mealProducts);
@@ -57,8 +57,8 @@ public class UserMealRepository : IUserMealRepository
     }
     public int AddProduct(MealProduct prod)
     {
-        prod.Meal = _context.Meals.Include(m => m.MealProducts).FirstOrDefault(m => m.Id == prod.MealsId);
-        prod.Product = _context.Products.Find(prod.ProductsId);
+        prod.Meal = _context.Meals.Include(m => m.MealProducts).FirstOrDefault(m => m.Id == prod.MealId);
+        prod.Product = _context.Products.Find(prod.ProductId);
         _context.MealProducts.Add(prod);
         _context.SaveChanges();
         return prod.Id;
@@ -83,7 +83,7 @@ public class UserMealRepository : IUserMealRepository
 
     public void DeleteProduct(int id)
     {
-        var product = _context.MealProducts.FirstOrDefault(d => d.ProductsId == id);
+        var product = _context.MealProducts.FirstOrDefault(d => d.ProductId == id);
         if (product != null)
         {
             _context.MealProducts.Remove(product);
@@ -93,12 +93,12 @@ public class UserMealRepository : IUserMealRepository
 
     public MealProduct GetMealProductById(int id)
     {
-        var mealproduct = _context.MealProducts.FirstOrDefault(i => i.MealsId == id);
+        var mealproduct = _context.MealProducts.FirstOrDefault(i => i.MealId == id);
         return mealproduct;
     }
 
     public bool DoesProductExistInMeal(int modelMealId, int modelProductId)
     {
-        return _context.Set<MealProduct>().Any(mp => mp.MealsId == modelMealId && mp.ProductsId == modelProductId);
+        return _context.Set<MealProduct>().Any(mp => mp.MealId == modelMealId && mp.ProductId == modelProductId);
     }
 }

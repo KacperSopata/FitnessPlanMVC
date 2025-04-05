@@ -88,14 +88,25 @@ namespace FitnessPlanMVC.Application.Service
         public NewWorkoutExerciseVm GetWorkoutExerciseById(int id)
         {
             var exercise = _workoutRepo.GetWorkoutExerciseById(id);
+
+            if (exercise == null)
+                return null; 
+
             var exerciseVm = _mapper.Map<NewWorkoutExerciseVm>(exercise);
             return exerciseVm;
         }
 
+
         public void UpdateExercise(NewWorkoutExerciseVm model)
         {
-            var workoutexercise = _mapper.Map<WorkoutExercise>(model);
-            _workoutRepo.UpdateProduct(workoutexercise);
+            var existingExercise = _workoutRepo.GetWorkoutExerciseById(model.Id);
+
+            existingExercise.ExerciseId = model.ExerciseId; // Musi być poprawne ID istniejącego ćwiczenia
+            existingExercise.Sets = model.Sets;
+            existingExercise.Reps = model.Reps;
+            existingExercise.Weight = model.Weight;
+
+            _workoutRepo.UpdateProduct(existingExercise);
         }
     }
 }

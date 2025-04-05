@@ -110,9 +110,12 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
 
         public WorkoutExercise GetWorkoutExerciseById(int id)
         {
-            var workoutexercise = _context.WorkoutExercises.FirstOrDefault(i => i.WorkoutId == id);
-            return workoutexercise;
+            var exercise = _context.WorkoutExercises
+                .FirstOrDefault(e => e.Id == id);
+
+            return exercise;
         }
+
 
         public void UpdateProduct(WorkoutExercise workoutexercise)
         {

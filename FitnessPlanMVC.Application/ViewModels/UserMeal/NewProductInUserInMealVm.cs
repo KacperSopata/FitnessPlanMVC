@@ -27,8 +27,8 @@ namespace FitnessPlanMVC.Application.ViewModels.UserMeal
 
             profile.CreateMap<MealProduct, NewProductInUserInMealVm>();
             profile.CreateMap<NewProductInUserInMealVm, MealProduct>()
-                .ForMember(dest => dest.MealsId, opt => opt.MapFrom(src => src.MealId))
-                .ForMember(dest => dest.ProductsId, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.MealId, opt => opt.MapFrom(src => src.MealId))
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
                 .ForMember(dest => dest.Grammage, opt => opt.MapFrom(src => src.Grammage))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ReverseMap();

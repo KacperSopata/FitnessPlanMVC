@@ -55,7 +55,7 @@
                                 <td>@exercise.Reps</td>
                                 <td>@exercise.Weight</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "EditExercise2", new { workoutId = exercise.Id }, new { @class = "btn btn-sm btn-outline-dark" }) |
+                                    @Html.ActionLink("Edit", "EditExercise2", "Workout", new { id = exercise.Id }, new { @class = "btn btn-sm btn-outline-dark" })
                                     @Html.ActionLink("Details", "Details", new { id = exercise.Id }, new { @class = "btn btn-sm btn-outline-info" }) |
                                     @Html.ActionLink("Delete", "Delete", new { id = exercise.Id }, new { @class = "btn btn-sm btn-outline-danger" })
                                 </td>

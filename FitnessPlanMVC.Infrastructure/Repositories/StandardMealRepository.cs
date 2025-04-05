@@ -27,7 +27,7 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
         public int GetGrammageForProduct(int productId)
         {
             return _context.MealProducts
-                .Where(mealProduct => mealProduct.ProductsId == productId)
+                .Where(mealProduct => mealProduct.ProductId == productId)
                 .Select(mealProduct => mealProduct.Grammage)
                 .FirstOrDefault();
         }
@@ -47,7 +47,7 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
 
         public void DeleteProduct(int id)
         {
-            var product = _context.MealProducts.FirstOrDefault(p => p.ProductsId == id);
+            var product = _context.MealProducts.FirstOrDefault(p => p.ProductId == id);
             if (product != null)
             {
                 _context.MealProducts.Remove(product);
@@ -66,13 +66,13 @@ namespace FitnessPlanMVC.Infrastructure.Repositories
                 {
                     meal.MealProducts = new List<MealProduct>();
                 }
-                if (!meal.MealProducts.Any(p => p.ProductsId == productId))
+                if (!meal.MealProducts.Any(p => p.ProductId == productId))
                 {
                     var mealProduct = new MealProduct
                     {
-                        MealsId = mealId,
+                        MealId = mealId,
                         Meal = meal,
-                        ProductsId = productId,
+                        ProductId = productId,
                         Product = product,
                         Grammage = quantity
                     };

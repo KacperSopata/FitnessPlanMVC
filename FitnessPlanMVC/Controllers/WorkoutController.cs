@@ -65,9 +65,10 @@ namespace FitnessPlanMVC.Controllers
         }
 
         [HttpGet]
+        [HttpGet]
         public IActionResult AddExerciseToWorkout(int workoutId)
         {
-            var exercises = _exerciseService.GetAllExercisesForList(10, 1, "");
+            var exercises = _exerciseService.GetAllExercisesForList(100, 1, ""); // upewnij się, że jest odpowiednia ilość
             var model = new NewWorkoutExerciseVm()
             {
                 Exercises = exercises.ExerciseForListVm,
@@ -75,6 +76,7 @@ namespace FitnessPlanMVC.Controllers
             };
             return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddExerciseToWorkout(NewWorkoutExerciseVm model)
@@ -109,11 +111,16 @@ namespace FitnessPlanMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditExercise2(int workoutId)
+        public IActionResult EditExercise2(int id)
         {
-            var exercise = _workoutService.GetWorkoutExerciseById(workoutId);
+            var exercise = _workoutService.GetWorkoutExerciseById(id);
+
+            if (exercise == null)
+                return NotFound();
+
             return View(exercise);
         }
+
 
         [HttpPost]
         public IActionResult EditExercise2(NewWorkoutExerciseVm model)
